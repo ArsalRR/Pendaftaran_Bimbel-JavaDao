@@ -20,7 +20,7 @@ public class MenuView extends javax.swing.JFrame {
     }
 
     public SiswaView siswaView;
-    public ProdukView produkView;
+    public MapelView mapelView;
     public PengajarView pengajarView;
     /**
      * This method is called from within the constructor to initialize the form.
@@ -36,7 +36,7 @@ public class MenuView extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         itemSiswa = new javax.swing.JMenuItem();
         itemPengajar = new javax.swing.JMenuItem();
-        itemProduk1 = new javax.swing.JMenuItem();
+        itemMapel = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
@@ -73,13 +73,13 @@ public class MenuView extends javax.swing.JFrame {
         });
         jMenu1.add(itemPengajar);
 
-        itemProduk1.setText("Produk");
-        itemProduk1.addActionListener(new java.awt.event.ActionListener() {
+        itemMapel.setText("Mata Pelajaran");
+        itemMapel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemProduk1ActionPerformed(evt);
+                itemMapelActionPerformed(evt);
             }
         });
-        jMenu1.add(itemProduk1);
+        jMenu1.add(itemMapel);
 
         jMenuBar1.add(jMenu1);
 
@@ -117,9 +117,16 @@ public class MenuView extends javax.swing.JFrame {
         pengajarView.setVisible(true);
     }//GEN-LAST:event_itemPengajarActionPerformed
 
-    private void itemProduk1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemProduk1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itemProduk1ActionPerformed
+    private void itemMapelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMapelActionPerformed
+         // TODO add your handling code here:
+        if (mapelView == null) {
+            mapelView = new MapelView();
+            menuDesktop.add(mapelView);
+        } else {
+            mapelView.toFront();
+        }
+        mapelView.setVisible(true);
+    }//GEN-LAST:event_itemMapelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -157,8 +164,8 @@ public class MenuView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem itemMapel;
     private javax.swing.JMenuItem itemPengajar;
-    private javax.swing.JMenuItem itemProduk1;
     private javax.swing.JMenuItem itemSiswa;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

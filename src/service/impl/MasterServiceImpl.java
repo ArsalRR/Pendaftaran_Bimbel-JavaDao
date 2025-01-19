@@ -1,6 +1,7 @@
 package service.impl;
 
 import config.Koneksi;
+import dao.MapelDao;
 import dao.SiswaDao;
 import dao.PengajarDao;
 import java.sql.Connection;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Mapel;
 import model.Pengajar;
 import model.Siswa;
 import service.MasterService;
@@ -16,6 +18,7 @@ import service.MasterService;
 public class MasterServiceImpl implements MasterService {
 
     private SiswaDao siswaDao;
+    private MapelDao MapelDao;
     private PengajarDao pengajarDao;
     private Koneksi koneksi;
     private Connection connection;
@@ -239,6 +242,108 @@ public Siswa hapusSiswa(Siswa s) {
             Logger.getLogger(MasterServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public Mapel simpanMapel(Mapel m) {
+        try {
+        // Start transaction
+        connection.setAutoCommit(false);
+        
+        // Validate siswa data before saving
+        if (m == null || m.getNama_mapel() == null || m.getNama_mapel().trim().isEmpty()) {
+            throw new IllegalArgumentException("Data siswa tidak valid");
+        }
+        
+        // Attempt to save
+        Mapel savedMapel = MapelDao.simpan(m);
+        
+        // If successful, commit the transaction
+        connection.commit();
+        
+        return savedMapel;
+        
+    } catch (SQLException ex) {
+        // Handle SQL related exceptions
+        try {
+            connection.rollback();
+            Logger.getLogger(MasterServiceImpl.class.getName())
+                  .log(Level.SEVERE, "Error saat menyimpan siswa: " + ex.getMessage(), ex);
+        } catch (SQLException rollbackEx) {
+            Logger.getLogger(MasterServiceImpl.class.getName())
+                  .log(Level.SEVERE, "Error saat rollback: " + rollbackEx.getMessage(), rollbackEx);
+        }
+        throw new RuntimeException("Gagal menyimpan data siswa", ex);
+        
+    } catch (Exception ex) {
+        // Handle other exceptions
+        try {
+            connection.rollback();
+            Logger.getLogger(MasterServiceImpl.class.getName())
+                  .log(Level.SEVERE, "Error tidak terduga: " + ex.getMessage(), ex);
+        } catch (SQLException rollbackEx) {
+            Logger.getLogger(MasterServiceImpl.class.getName())
+                  .log(Level.SEVERE, "Error saat rollback: " + rollbackEx.getMessage(), rollbackEx);
+        }
+        throw new RuntimeException("Gagal menyimpan data siswa", ex);
+        
+    } finally {
+        try {
+            // Reset auto-commit to true
+            connection.setAutoCommit(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(MasterServiceImpl.class.getName())
+                  .log(Level.WARNING, "Error saat reset auto-commit", ex);
+        }
+    }
+    }
+
+    @Override
+    public Mapel ubahMapel(Mapel m) {
+        try {
+            connection.setAutoCommit(false);
+            MapelDao.ubah(m);
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(MasterServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            Logger.getLogger(MasterServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return m;
+    }
+
+    @Override
+    public Mapel hapusMapel(Mapel m) {
+       try {
+            connection.setAutoCommit(false);
+            MapelDao.hapus(m);
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(MasterServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            Logger.getLogger(MasterServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return m;
+    }
+
+    @Override
+    public List<Mapel> getAllMapel() {
+      try {
+            return MapelDao.getAll();
+        } catch (SQLException ex) {
+            Logger.getLogger(MasterServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return new ArrayList<>();
+    
     }
 
 

@@ -25,12 +25,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemPengajarActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="itemProduk1">
+            <MenuItem class="javax.swing.JMenuItem" name="itemMapel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Produk"/>
+                <Property name="text" type="java.lang.String" value="Mata Pelajaran"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemProduk1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemMapelActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

@@ -6,6 +6,7 @@
 package service;
 
 import java.util.List;
+import model.Mapel;
 import model.Pengajar;
 import model.Siswa;
 
@@ -27,5 +28,9 @@ public interface MasterService {
     Pengajar hapusPengajar(Pengajar a);
     List<Pengajar> getAllPengajar();
     
-    
+   //Mapel
+     Mapel simpanMapel(Mapel m);
+    Mapel ubahMapel(Mapel m);
+    Mapel hapusMapel(Mapel m);
+    List<Mapel> getAllMapel();
 }
