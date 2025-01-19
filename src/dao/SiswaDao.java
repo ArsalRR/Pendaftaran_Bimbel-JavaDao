@@ -64,7 +64,7 @@ public Siswa ubah(Siswa s) throws SQLException {
     ubahStatement.setString(2, s.getAlamat());
     ubahStatement.setString(3, s.getJenis_kelamin());
     ubahStatement.setString(4, s.getNo_tlp()); 
-    ubahStatement.setInt(5, s.getId()); 
+     ubahStatement.setInt(5, s.getId());  
     ubahStatement.executeUpdate();
     return s;
 }

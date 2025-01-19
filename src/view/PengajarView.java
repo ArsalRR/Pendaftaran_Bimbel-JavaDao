@@ -5,7 +5,7 @@
  */
 package view;
 
-import controller.SiswaController;
+import controller.PengajarController;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -16,7 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.AbstractTableModel;
 import main.App;
-import model.Siswa;
+import model.Pengajar;
+
 
 /**
  *
@@ -24,18 +25,18 @@ import model.Siswa;
  */
 public class PengajarView extends javax.swing.JInternalFrame {
 
-    private final Siswa siswa;
-    private List<Siswa> listSiswa;
-    private final SiswaController siswaController;
+    private final Pengajar pengajar;
+    private List<Pengajar> listPengajar;
+    private final PengajarController pengajarController;
 
     /**
      * Creates new form SatuanView
      */
     public PengajarView() {
         initComponents();
-        siswa = new Siswa();
-        siswaController = new SiswaController(this);
-        siswaController.enableForm(false);
+        pengajar = new Pengajar();
+        pengajarController = new PengajarController(this);
+        pengajarController.enableForm(false);
         refreshTable();
         initListener();
     }
@@ -75,14 +76,14 @@ public class PengajarView extends javax.swing.JInternalFrame {
 
 
     private void refreshTable() {
-        listSiswa = App.masterService.getAllSiswa(); // memanggil interface
+        listPengajar = App.masterService.getAllPengajar(); // memanggil interface
         // memasukkan nilai list ke inner class
-        tabelPengajar.setModel(new SatuanTableModel(listSiswa)); 
+        tabelPengajar.setModel(new SatuanTableModel(listPengajar)); 
     }
     
     private void initListener(){ // memindahkan nilai di tabel ke form
         tabelPengajar.getSelectionModel().addListSelectionListener((ListSelectionEvent lse) -> {
-            siswaController.loadData(siswa, listSiswa);
+            pengajarController.loadData(pengajar, listPengajar);
         });
     }
     
@@ -133,7 +134,7 @@ public class PengajarView extends javax.swing.JInternalFrame {
 
         jLabel2.setText("No Telpon");
 
-        jLabel3.setText("Alamat");
+        jLabel3.setText("Email");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -225,8 +226,9 @@ public class PengajarView extends javax.swing.JInternalFrame {
                                 .addGap(10, 10, 10)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(9, 9, 9)
                                 .addComponent(tombolBaru)
-                                .addGap(24, 24, 24)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(tombolSimpan)
                                 .addGap(18, 18, 18)
                                 .addComponent(tombolUbah)
@@ -240,18 +242,13 @@ public class PengajarView extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tombolHapus)
-                            .addComponent(tombolUbah)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tombolSimpan)
-                            .addComponent(tombolBaru))))
-                .addGap(56, 56, 56)
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tombolHapus)
+                    .addComponent(tombolUbah)
+                    .addComponent(tombolSimpan)
+                    .addComponent(tombolBaru))
+                .addGap(65, 65, 65)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(129, Short.MAX_VALUE))
         );
@@ -261,18 +258,16 @@ public class PengajarView extends javax.swing.JInternalFrame {
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
         // TODO add your handling code here:
-        App.menuView.siswaView = null;
+        App.menuView.pengajarView = null;
     }//GEN-LAST:event_formInternalFrameClosed
 
     private void tombolSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolSimpanActionPerformed
         // TODO add your handling code here:
-     if (siswaController.validasiInput()) {
-        siswa.setNama_siswa(textNama_Pengajar.getText());
-        siswa.setAlamat(textEmail.getText());
-        siswa.setNo_tlp(textNoTelpon.getText());
-        siswa.setJenis_kelamin(jRadioPerempuan.isSelected() ? "Laki-laki" : "Perempuan");
-
-        App.masterService.simpanSiswa(siswa);
+     if (pengajarController.validasiInput()) {
+        pengajar.setNama_pengajar(textNama_Pengajar.getText());
+        pengajar.setEmail(textEmail.getText());
+        pengajar.setNo_tlp(textNoTelpon.getText());
+        App.masterService.simpanPengajar(pengajar);
         JOptionPane.showMessageDialog(this, "Data siswa berhasil disimpan!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
         refreshTable();
     }
@@ -280,19 +275,19 @@ public class PengajarView extends javax.swing.JInternalFrame {
 
     private void tombolBaruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolBaruActionPerformed
         // TODO add your handling code here:
-        siswaController.clearForm();
-        siswaController.enableForm(true);
+        pengajarController.clearForm();
+        pengajarController.enableForm(true);
         textNama_Pengajar.requestFocusInWindow();
     }//GEN-LAST:event_tombolBaruActionPerformed
 
     private void tombolHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolHapusActionPerformed
-         if (siswaController.validasiInput()) {
+         if (pengajarController.validasiInput()) {
         int konfirmasi = JOptionPane.showConfirmDialog(this, 
             "Apakah anda yakin akan menghapus data ini?", 
             "Konfirmasi", 
             JOptionPane.WARNING_MESSAGE);
         if(konfirmasi == 0) {
-            App.masterService.hapusSiswa(siswa);
+            App.masterService.hapusPengajar(pengajar);
             JOptionPane.showMessageDialog(this, "Data siswa berhasil dihapus!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
             refreshTable();
         }
@@ -300,13 +295,11 @@ public class PengajarView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tombolHapusActionPerformed
 
     private void tombolUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolUbahActionPerformed
-           if (siswaController.validasiInput()) {
-         siswa.setNama_siswa(textNama_Pengajar.getText());
-        siswa.setAlamat(textEmail.getText());
-        siswa.setNo_tlp(textNoTelpon.getText());
-        siswa.setJenis_kelamin(jRadioPerempuan.isSelected() ? "Laki-laki" : "Perempuan");
-
-        App.masterService.ubahSiswa(siswa);
+           if (pengajarController.validasiInput()) {
+         pengajar.setNama_pengajar(textNama_Pengajar.getText());
+        pengajar.setEmail(textEmail.getText());
+        pengajar.setNo_tlp(textNoTelpon.getText());
+        App.masterService.ubahPengajar(pengajar);
         JOptionPane.showMessageDialog(this, "Data siswa berhasil diubah!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
         refreshTable();
     }
@@ -332,17 +325,17 @@ public class PengajarView extends javax.swing.JInternalFrame {
     // inner class
     public class SatuanTableModel extends AbstractTableModel {
 
-        private List<Siswa> listSiswa = new ArrayList<>();
+        private List<Pengajar> listPengajar = new ArrayList<>();
 
-        private final String HEADER[] = {"Nama Siswa", "Alamat","No Telpon","Jenis Kelamin"};
+        private final String HEADER[] = {"Nama Pengajar", "Email","No Telpon"};
 
-        public SatuanTableModel(List<Siswa> listSiswa) {
-            this.listSiswa = listSiswa;
+        public SatuanTableModel(List<Pengajar> listPengajar) {
+            this.listPengajar = listPengajar;
         }
 
         @Override
         public int getRowCount() { // jumlah baris
-            return listSiswa.size();
+            return listPengajar.size();
         }
 
         @Override
@@ -357,16 +350,14 @@ public class PengajarView extends javax.swing.JInternalFrame {
 
         @Override
          public Object getValueAt(int row, int col) {
-        Siswa s = listSiswa.get(row);
+        Pengajar a = listPengajar.get(row);
         switch (col) {
             case 0:
-                return s.getNama_siswa();
+                return a.getNama_pengajar();
             case 1:
-                return s.getAlamat();
+                return a.getEmail();
             case 2:
-                return s.getNo_tlp();
-            case 3:
-                return s.getJenis_kelamin();
+                return a.getNo_tlp();
             default:
                 return null;
         }

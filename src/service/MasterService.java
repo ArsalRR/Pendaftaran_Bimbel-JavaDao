@@ -6,7 +6,7 @@
 package service;
 
 import java.util.List;
-import model.Produk;
+import model.Pengajar;
 import model.Siswa;
 
 /**
@@ -22,15 +22,10 @@ public interface MasterService {
     List<Siswa> getAllSiswa();
     
     // PRODUK
-    Produk simpanProduk(Produk p);
-    
-    Produk ubahProduk(Produk p);
-    
-    Produk hapusProduk(Produk p);
-    
-    List<Produk> getAllProduk();
-    
-    Produk getByIdProduk(String id);
+    Pengajar simpanPengajar(Pengajar a);
+    Pengajar ubahPengajar(Pengajar a);
+    Pengajar hapusPengajar(Pengajar a);
+    List<Pengajar> getAllPengajar();
     
     
 }
