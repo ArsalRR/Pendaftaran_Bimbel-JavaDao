@@ -57,23 +57,31 @@ public class SiswaDao {
     return s;
 }
 
-
-public Siswa ubah(Siswa s) throws SQLException {
-    ubahStatement.setString(1, s.getNama_siswa());
-    ubahStatement.setString(2, s.getAlamat());
-    ubahStatement.setString(3, s.getJenis_kelamin());
-    ubahStatement.setString(4, s.getNo_tlp()); 
-     ubahStatement.setInt(5, s.getId());  
-    ubahStatement.executeUpdate();
-    return s;
+public boolean ubah(Siswa s) throws SQLException {
+    try {
+        ubahStatement.setString(1, s.getNama_siswa());
+        ubahStatement.setString(2, s.getAlamat());
+        ubahStatement.setString(3, s.getJenis_kelamin());
+        ubahStatement.setString(4, s.getNo_tlp()); 
+        ubahStatement.setInt(5, s.getId());  
+        
+        int result = ubahStatement.executeUpdate();
+        return result > 0; // Returns true if update was successful
+    } catch (SQLException e) {
+        throw new SQLException("Error updating student data: " + e.getMessage());
+    }
 }
 
 
-    public Siswa hapus(Siswa s) throws SQLException {
+public boolean hapus(Siswa s) throws SQLException {
+    try {
         hapusStatement.setInt(1, s.getId());
-        hapusStatement.executeUpdate();
-        return s;
+        int result = hapusStatement.executeUpdate();
+        return result > 0;
+    } catch (SQLException e) {
+        throw new SQLException("Error deleting student data: " + e.getMessage());
     }
+}
 
     public List<Siswa> getAll() throws SQLException {
         List<Siswa> list = new ArrayList<>();

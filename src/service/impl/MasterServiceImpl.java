@@ -1,7 +1,9 @@
 package service.impl;
 
+import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import config.Koneksi;
 import dao.MapelDao;
+import dao.PendaftaranDao;
 import dao.SiswaDao;
 import dao.PengajarDao;
 import java.sql.Connection;
@@ -10,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import model.Mapel;
+import model.Pendaftaran;
 import model.Pengajar;
 import model.Siswa;
 import service.MasterService;
@@ -21,6 +25,7 @@ public class MasterServiceImpl implements MasterService {
     private MapelDao MapelDao;
     private PengajarDao pengajarDao;
     private Koneksi koneksi;
+    private PendaftaranDao pendaftaranDao;
     private Connection connection;
 
     public MasterServiceImpl() {
@@ -337,14 +342,166 @@ public Siswa hapusSiswa(Siswa s) {
 
     @Override
     public List<Mapel> getAllMapel() {
-      try {
-            return MapelDao.getAll();
-        } catch (SQLException ex) {
+       LOGGER.info("Mencoba mengambil semua data mapel");
+    try {
+        if (MapelDao == null) {
+            LOGGER.severe("MapelDao belum diinisialisasi");
+            throw new Exception("Service belum siap");
+        }
+        List<Mapel> result = MapelDao.getAll();
+        LOGGER.info("Berhasil mengambil " + result.size() + " data mapel");
+        return result;
+    } catch (SQLException e) {
+        LOGGER.severe("Error saat mengambil data mapel: " + e.getMessage());
+        e.printStackTrace();
+           try {
+               throw new Exception("Gagal mengambil data mapel: " + e.getMessage());
+           } catch (Exception ex) {
+               Logger.getLogger(MasterServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+           }
+    }   catch (Exception ex) {
             Logger.getLogger(MasterServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return new ArrayList<>();
+        return null;
     
     }
+
+
+    @Override
+
+public Pendaftaran simpanPendaftaran(Pendaftaran p) {
+    try {
+        connection.setAutoCommit(false);
+        
+        // Validate pendaftaran data
+        if (p == null || p.getSiswa() == null || p.getMapel() == null || 
+            p.getPengajar() == null || p.getStatus_pembayaran() == null) {
+            throw new IllegalArgumentException("Data pendaftaran tidak lengkap");
+        }
+        
+        Pendaftaran savedPendaftaran = pendaftaranDao.simpan(p);
+        connection.commit();
+        return savedPendaftaran;
+        
+    } catch (SQLException ex) {
+        handleTransactionException(ex, "menyimpan");
+        throw new RuntimeException("Gagal menyimpan data pendaftaran", ex);
+    } finally {
+        resetAutoCommit();
+    }
+}
+
+@Override
+public Pendaftaran ubahPendaftaran(Pendaftaran p) {
+    try {
+        connection.setAutoCommit(false);
+        
+        // Validate pendaftaran data
+        if (p == null || p.getId() == 0) {
+            throw new IllegalArgumentException("Data pendaftaran tidak valid");
+        }
+        
+        Pendaftaran updatedPendaftaran = pendaftaranDao.ubah(p);
+        connection.commit();
+        return updatedPendaftaran;
+        
+    } catch (SQLException ex) {
+        handleTransactionException(ex, "mengubah");
+        throw new RuntimeException("Gagal mengubah data pendaftaran", ex);
+    } finally {
+        resetAutoCommit();
+    }
+}
+
+@Override
+public Pendaftaran hapusPendaftaran(Pendaftaran p) {
+    try {
+        connection.setAutoCommit(false);
+        
+        if (p == null || p.getId() == 0) {
+            throw new IllegalArgumentException("Data pendaftaran tidak valid");
+        }
+        
+        Pendaftaran deletedPendaftaran = pendaftaranDao.hapus(p);
+        connection.commit();
+        return deletedPendaftaran;
+        
+    } catch (SQLException ex) {
+        handleTransactionException(ex, "menghapus");
+        throw new RuntimeException("Gagal menghapus data pendaftaran", ex);
+    } finally {
+        resetAutoCommit();
+    }
+}
+
+@Override
+public List<Pendaftaran> getAllPendaftaran() {
+    try {
+        return pendaftaranDao.getAll();
+    } catch (SQLException ex) {
+        Logger.getLogger(MasterServiceImpl.class.getName())
+              .log(Level.SEVERE, "Error saat mengambil semua data pendaftaran", ex);
+        throw new RuntimeException("Gagal mengambil data pendaftaran", ex);
+    }
+}
+
+@Override
+public Pendaftaran getByIdPendaftaran(String id) {
+    try {
+        return pendaftaranDao.getById(id);
+    } catch (SQLException ex) {
+        Logger.getLogger(MasterServiceImpl.class.getName())
+              .log(Level.SEVERE, "Error saat mengambil data pendaftaran by ID", ex);
+        throw new RuntimeException("Gagal mengambil data pendaftaran", ex);
+    }
+}
+
+@Override
+public List<Pendaftaran> findPendaftaranByName(String nama) {
+    try {
+        List<Pendaftaran> allPendaftaran = pendaftaranDao.getAll();
+        return allPendaftaran.stream()
+                .filter(p -> p.getSiswa().getNama_siswa().toLowerCase().contains(nama.toLowerCase()))
+                .collect(Collectors.toList());
+    } catch (SQLException ex) {
+        Logger.getLogger(MasterServiceImpl.class.getName())
+              .log(Level.SEVERE, "Error saat mencari pendaftaran by nama", ex);
+        throw new RuntimeException("Gagal mencari data pendaftaran", ex);
+    }
+}
+
+// Helper methods for exception handling
+private void handleTransactionException(SQLException ex, String operation) {
+    try {
+        connection.rollback();
+        Logger.getLogger(MasterServiceImpl.class.getName())
+              .log(Level.SEVERE, "Error saat " + operation + " pendaftaran: " + ex.getMessage(), ex);
+    } catch (SQLException rollbackEx) {
+        Logger.getLogger(MasterServiceImpl.class.getName())
+              .log(Level.SEVERE, "Error saat rollback: " + rollbackEx.getMessage(), rollbackEx);
+    }
+}
+
+private void resetAutoCommit() {
+    try {
+        connection.setAutoCommit(true);
+    } catch (SQLException ex) {
+        Logger.getLogger(MasterServiceImpl.class.getName())
+              .log(Level.WARNING, "Error saat reset auto-commit", ex);
+    }
+}
+
+    @Override
+    public Pendaftaran handleTransactionException(Pendaftaran p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Pendaftaran resetAutoCommit(Pendaftaran p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+ 
+
 
 
 

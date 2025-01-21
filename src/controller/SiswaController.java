@@ -62,10 +62,7 @@ public class SiswaController {
             siswaView.getTextNoTelpon().setText(siswa.getNo_tlp());
             siswaView.getTextAlamat().setText(siswa.getAlamat());
             
-          if(siswa.getJenis_kelamin().equals("LAki Laki")){
-    siswaView.getjRadioLaki().setSelected(true);
-} else if(siswa.getJenis_kelamin().equals("Perempuan")){
-    siswaView.getjRadioPerempuan().setSelected(true);
+     
 }
 
             
@@ -78,4 +75,4 @@ public class SiswaController {
             siswaView.getTextAlamat().setEnabled(true);
         }
     }
-}
+

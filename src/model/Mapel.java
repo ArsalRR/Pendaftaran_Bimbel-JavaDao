@@ -10,7 +10,7 @@ package model;
  * @author ASUS
  */
 public class Mapel {
-        private int id;
+           private int id;
     private String Nama_mapel;
     private String tingkat;
     private int biaya;
@@ -46,7 +46,5 @@ public class Mapel {
     public void setBiaya(int biaya) {
         this.biaya = biaya;
     }
-
-  
     
 }

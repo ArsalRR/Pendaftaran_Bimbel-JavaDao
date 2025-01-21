@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.Mapel;
@@ -33,8 +34,8 @@ public class MapelDao {
     }
 
     private void prepareStatements() throws SQLException {
-        simpanStatement = connection.prepareStatement("INSERT INTO mata_pelajaran (id, nama_mapel, tingkat, biaya) VALUES (?, ?, ?, ?)");
-        ubahStatement = connection.prepareStatement("UPDATE mata_pelajaran SET nama_mapel = ?, tingkat = ?, biaya = ? WHERE id = ?");
+        simpanStatement = connection.prepareStatement("INSERT INTO mata_pelajaran (nama_mapel, tingkat, biaya) VALUES (?, ?, ?)");
+        ubahStatement = connection.prepareStatement( "UPDATE mata_pelajaran SET nama_mapel = ?, tingkat = ?, biaya = ? WHERE id = ?");
         hapusStatement = connection.prepareStatement("DELETE FROM mata_pelajaran WHERE id = ?");
         getAllStatement = connection.prepareStatement("SELECT * FROM mata_pelajaran");
         getByIdStatement = connection.prepareStatement("SELECT * FROM mata_pelajaran WHERE id = ?");
@@ -66,19 +67,24 @@ public class MapelDao {
         return m;
     }
 
-    public List<Mapel> getAll() throws SQLException {
-        List<Mapel> list = new ArrayList<>();
-        try (ResultSet rs = getAllStatement.executeQuery()) {
+public List<Mapel> getAll() throws SQLException {
+        List<Mapel> result = new ArrayList<>();
+        String sql = "SELECT * FROM mata_pelajaran";
+        
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
             while (rs.next()) {
-                Mapel a = new Mapel();
-                a.setId(rs.getInt("id"));
-                a.setNama_mapel(rs.getString("nama_mapel"));
-                a.setTingkat(rs.getString("tingkat"));
-                a.setBiaya(rs.getInt("biaya"));
-                list.add(a);
+                Mapel mapel = new Mapel();
+                mapel.setId(rs.getInt("id"));
+                mapel.setNama_mapel(rs.getString("nama_mapel"));
+                mapel.setTingkat(rs.getString("tingkat"));
+                mapel.setBiaya(rs.getInt("biaya"));
+                result.add(mapel);
             }
+            
+            return result;
         }
-        return list;
     }
 
     public Mapel getById(int id) throws SQLException {
@@ -120,4 +126,5 @@ public class MapelDao {
         }
         return a;
     }
+   
 }

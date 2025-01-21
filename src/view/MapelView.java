@@ -6,10 +6,12 @@
 package view;
 
 import controller.MapelController;
+import controller.PengajarController;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
@@ -25,7 +27,7 @@ import model.Mapel;
 public class MapelView extends javax.swing.JInternalFrame {
 
     private final Mapel mapel;
-    private List<Mapel> listmapel;
+    private List<Mapel> listMapel;
     private final MapelController mapelController;
 
     /**
@@ -43,6 +45,8 @@ public class MapelView extends javax.swing.JInternalFrame {
     public JTable getTabelMapel() {
         return tabelMapel;
     }
+
+  
 
     public JTextField getTextBiaya() {
         return textBiaya;
@@ -75,19 +79,18 @@ public class MapelView extends javax.swing.JInternalFrame {
 
 
 
-    private void refreshTable() {
-        listmapel = App.masterService.getAllMapel(); // memanggil interface
-        // memasukkan nilai list ke inner class
-        tabelMapel.setModel(new SatuanTableModel(listmapel)); 
-    }
 
+    private void refreshTable() {
+        listMapel = App.masterService.getAllMapel(); // memanggil interface
+        // memasukkan nilai list ke inner class
+        tabelMapel.setModel(new SatuanTableModel(listMapel)); 
+    }
     
-      private void initListener(){ // memindahkan nilai di tabel ke form
+    private void initListener(){ // memindahkan nilai di tabel ke form
         tabelMapel.getSelectionModel().addListSelectionListener((ListSelectionEvent lse) -> {
-            mapelController.loadData(mapel, listmapel);
+            mapelController.loadData(mapel, listMapel);
         });
     }
-    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -132,7 +135,7 @@ public class MapelView extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel1.setText("Nama Mapel");
+        jLabel1.setText("Nama Mata Pelajaran");
 
         jLabel2.setText("Biaya");
 
@@ -153,7 +156,7 @@ public class MapelView extends javax.swing.JInternalFrame {
                     .addComponent(textBiaya, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
                     .addComponent(textNama_Mapel)
                     .addComponent(textTingkat))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(424, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,7 +239,7 @@ public class MapelView extends javax.swing.JInternalFrame {
                                 .addComponent(tombolUbah)
                                 .addGap(30, 30, 30)
                                 .addComponent(tombolHapus)))
-                        .addGap(0, 429, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -260,7 +263,7 @@ public class MapelView extends javax.swing.JInternalFrame {
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
         // TODO add your handling code here:
-        App.menuView.mapelView = null;
+        App.menuView.pengajarView = null;
     }//GEN-LAST:event_formInternalFrameClosed
 
     private void tombolSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolSimpanActionPerformed
@@ -268,7 +271,7 @@ public class MapelView extends javax.swing.JInternalFrame {
      if (mapelController.validasiInput()) {
         mapel.setNama_mapel(textNama_Mapel.getText());
         mapel.setTingkat(textTingkat.getText());
-        mapel.setBiaya(textBiaya.getText());
+        mapel.setBiaya(Integer.parseInt(textBiaya.getText()));
         App.masterService.simpanMapel(mapel);
         JOptionPane.showMessageDialog(this, "Data siswa berhasil disimpan!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
         refreshTable();
@@ -300,7 +303,7 @@ public class MapelView extends javax.swing.JInternalFrame {
            if (mapelController.validasiInput()) {
          mapel.setNama_mapel(textNama_Mapel.getText());
         mapel.setTingkat(textTingkat.getText());
-        mapel.setBiaya(textBiaya.getText());
+        mapel.setBiaya(Integer.parseInt(textBiaya.getText()));
         App.masterService.ubahMapel(mapel);
         JOptionPane.showMessageDialog(this, "Data siswa berhasil diubah!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
         refreshTable();
@@ -329,8 +332,7 @@ public class MapelView extends javax.swing.JInternalFrame {
 
         private List<Mapel> listMapel = new ArrayList<>();
 
-
-        private final String HEADER[] = {"Nama Mata Pelajaran", "Email","No Telpon"};
+        private final String HEADER[] = {"Nama Pengajar", "Email","No Telpon"};
 
         public SatuanTableModel(List<Mapel> listMapel) {
             this.listMapel = listMapel;
@@ -338,7 +340,7 @@ public class MapelView extends javax.swing.JInternalFrame {
 
         @Override
         public int getRowCount() { // jumlah baris
-            return listmapel.size();
+            return listMapel.size();
         }
 
         @Override

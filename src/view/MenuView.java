@@ -86,6 +86,11 @@ public class MenuView extends javax.swing.JFrame {
         jMenu2.setText("Transaksi");
 
         jMenuItem1.setText("Penjualan");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem1);
 
         jMenuBar1.add(jMenu2);
@@ -97,7 +102,7 @@ public class MenuView extends javax.swing.JFrame {
 
     private void itemSiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSiswaActionPerformed
         // TODO add your handling code here:
-        if (siswaView == null) {
+        if (mapelView == null) {
             siswaView = new SiswaView();
             menuDesktop.add(siswaView);
         } else {
@@ -119,6 +124,7 @@ public class MenuView extends javax.swing.JFrame {
 
     private void itemMapelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMapelActionPerformed
          // TODO add your handling code here:
+         
         if (mapelView == null) {
             mapelView = new MapelView();
             menuDesktop.add(mapelView);
@@ -127,6 +133,10 @@ public class MenuView extends javax.swing.JFrame {
         }
         mapelView.setVisible(true);
     }//GEN-LAST:event_itemMapelActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -161,6 +171,7 @@ public class MenuView extends javax.swing.JFrame {
                 new MenuView().setVisible(true);
             }
         });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

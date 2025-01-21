@@ -56,7 +56,7 @@ public class MapelController {
             mapel = list.get(row);
             
             MapelView.getTextNama_Mapel().setText(mapel.getNama_mapel());
-            MapelView.getTextBiaya().setText(mapel.getBiaya());
+MapelView.getTextBiaya().setText(String.valueOf(mapel.getBiaya()));
             MapelView.getTextTingkat().setText(mapel.getTingkat()); 
             enableForm(false);
             // Enable fields that should be editable when loading data

@@ -50,14 +50,14 @@ public class PengajarController {
         return true;
     }
     
-    public void loadData(Pengajar siswa, List<Pengajar> list){
+    public void loadData(Pengajar pengajar, List<Pengajar> list){
         if(PengajarView.getTabelPengajar().getSelectedRow() >= 0){
             int row = PengajarView.getTabelPengajar().getSelectedRow();
-            siswa = list.get(row);
+            pengajar = list.get(row);
             
-            PengajarView.getTextNama_Pengajar().setText(siswa.getNama_pengajar());
-            PengajarView.getTextNoTelpon().setText(siswa.getNo_tlp());
-            PengajarView.getTextEmail().setText(siswa.getEmail()); 
+            PengajarView.getTextNama_Pengajar().setText(pengajar.getNama_pengajar());
+            PengajarView.getTextNoTelpon().setText(pengajar.getNo_tlp());
+            PengajarView.getTextEmail().setText(pengajar.getEmail()); 
             enableForm(false);
             // Enable fields that should be editable when loading data
             PengajarView.getTextNama_Pengajar().setEnabled(true);

@@ -7,6 +7,7 @@ package service;
 
 import java.util.List;
 import model.Mapel;
+import model.Pendaftaran;
 import model.Pengajar;
 import model.Siswa;
 
@@ -16,13 +17,13 @@ import model.Siswa;
  */
 public interface MasterService {
     
-    // SATUAN
+    // Siswa
     Siswa simpanSiswa(Siswa s);
     Siswa ubahSiswa(Siswa s);
     Siswa hapusSiswa(Siswa s);
     List<Siswa> getAllSiswa();
     
-    // PRODUK
+    // Pengajar
     Pengajar simpanPengajar(Pengajar a);
     Pengajar ubahPengajar(Pengajar a);
     Pengajar hapusPengajar(Pengajar a);
@@ -33,4 +34,14 @@ public interface MasterService {
     Mapel ubahMapel(Mapel m);
     Mapel hapusMapel(Mapel m);
     List<Mapel> getAllMapel();
+    
+    //Pendaftaran
+      Pendaftaran simpanPendaftaran(Pendaftaran p);
+    Pendaftaran ubahPendaftaran(Pendaftaran p);
+    Pendaftaran hapusPendaftaran(Pendaftaran p);
+    List<Pendaftaran> getAllPendaftaran();
+    Pendaftaran getByIdPendaftaran(String id);
+     Pendaftaran handleTransactionException(Pendaftaran p);
+      Pendaftaran resetAutoCommit(Pendaftaran p);
+    List<Pendaftaran> findPendaftaranByName(String nama);
 }
