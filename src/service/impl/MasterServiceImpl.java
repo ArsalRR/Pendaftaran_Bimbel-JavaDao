@@ -22,8 +22,9 @@ import service.MasterService;
 public class MasterServiceImpl implements MasterService {
 
     private SiswaDao siswaDao;
-    private MapelDao MapelDao;
+    private MapelDao mapelDao;
     private PengajarDao pengajarDao;
+    private Pendaftaran pendaftaran;
     private Koneksi koneksi;
     private PendaftaranDao pendaftaranDao;
     private Connection connection;
@@ -35,7 +36,11 @@ public class MasterServiceImpl implements MasterService {
             
             siswaDao = new SiswaDao();
             siswaDao.setConnection(connection);
+              mapelDao = new MapelDao();
+            mapelDao.setConnection(connection);
               pengajarDao = new PengajarDao();
+            pengajarDao.setConnection(connection);
+             pendaftaranDao = new PendaftaranDao();
             pengajarDao.setConnection(connection);
         } catch (SQLException ex) {
             Logger.getLogger(MasterServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -116,7 +121,8 @@ public Siswa ubahSiswa(Siswa s) {
     }
 }
 
-public Siswa hapusSiswa(Siswa s) {
+
+public Siswa hapusSiswa(Siswa s) { 
     try {
         connection.setAutoCommit(false);
         siswaDao.hapus(s);
@@ -261,7 +267,7 @@ public Siswa hapusSiswa(Siswa s) {
         }
         
         // Attempt to save
-        Mapel savedMapel = MapelDao.simpan(m);
+        Mapel savedMapel = mapelDao.simpan(m);
         
         // If successful, commit the transaction
         connection.commit();
@@ -307,7 +313,7 @@ public Siswa hapusSiswa(Siswa s) {
     public Mapel ubahMapel(Mapel m) {
         try {
             connection.setAutoCommit(false);
-            MapelDao.ubah(m);
+            mapelDao.ubah(m);
             connection.commit();
             connection.setAutoCommit(true);
         } catch (SQLException ex) {
@@ -326,7 +332,7 @@ public Siswa hapusSiswa(Siswa s) {
     public Mapel hapusMapel(Mapel m) {
        try {
             connection.setAutoCommit(false);
-            MapelDao.hapus(m);
+            mapelDao.hapus(m);
             connection.commit();
             connection.setAutoCommit(true);
         } catch (SQLException ex) {
@@ -341,29 +347,13 @@ public Siswa hapusSiswa(Siswa s) {
     }
 
     @Override
-    public List<Mapel> getAllMapel() {
-       LOGGER.info("Mencoba mengambil semua data mapel");
-    try {
-        if (MapelDao == null) {
-            LOGGER.severe("MapelDao belum diinisialisasi");
-            throw new Exception("Service belum siap");
-        }
-        List<Mapel> result = MapelDao.getAll();
-        LOGGER.info("Berhasil mengambil " + result.size() + " data mapel");
-        return result;
-    } catch (SQLException e) {
-        LOGGER.severe("Error saat mengambil data mapel: " + e.getMessage());
-        e.printStackTrace();
-           try {
-               throw new Exception("Gagal mengambil data mapel: " + e.getMessage());
-           } catch (Exception ex) {
-               Logger.getLogger(MasterServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-           }
-    }   catch (Exception ex) {
+     public List<Mapel> getAllMapel() {
+         try {
+            return mapelDao.getAll();
+        } catch (SQLException ex) {
             Logger.getLogger(MasterServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
-    
+        return new ArrayList<>();
     }
 
 
@@ -481,6 +471,7 @@ private void handleTransactionException(SQLException ex, String operation) {
               .log(Level.SEVERE, "Error saat rollback: " + rollbackEx.getMessage(), rollbackEx);
     }
 }
+
 
 private void resetAutoCommit() {
     try {

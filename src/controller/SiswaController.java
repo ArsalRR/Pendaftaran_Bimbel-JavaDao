@@ -60,19 +60,15 @@ public class SiswaController {
             
             siswaView.getTextNama_Siswa().setText(siswa.getNama_siswa());
             siswaView.getTextNoTelpon().setText(siswa.getNo_tlp());
-            siswaView.getTextAlamat().setText(siswa.getAlamat());
-            
-     
-}
-
-            
-       
-            
+            siswaView.getTextAlamat().setText(siswa.getAlamat());        
             enableForm(false);
+                 siswaView.getjRadioPerempuan().setEnabled(true);
+                       siswaView.getjRadioLaki().setEnabled(true);
             // Enable fields that should be editable when loading data
             siswaView.getTextNama_Siswa().setEnabled(true);
             siswaView.getTextNoTelpon().setEnabled(true);
             siswaView.getTextAlamat().setEnabled(true);
         }
     }
+}
 

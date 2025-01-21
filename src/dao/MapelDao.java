@@ -34,7 +34,7 @@ public class MapelDao {
     }
 
     private void prepareStatements() throws SQLException {
-        simpanStatement = connection.prepareStatement("INSERT INTO mata_pelajaran (nama_mapel, tingkat, biaya) VALUES (?, ?, ?)");
+        simpanStatement = connection.prepareStatement("INSERT INTO mata_pelajaran (id, nama_mapel, tingkat, biaya) VALUES (?, ?, ?,?)");
         ubahStatement = connection.prepareStatement( "UPDATE mata_pelajaran SET nama_mapel = ?, tingkat = ?, biaya = ? WHERE id = ?");
         hapusStatement = connection.prepareStatement("DELETE FROM mata_pelajaran WHERE id = ?");
         getAllStatement = connection.prepareStatement("SELECT * FROM mata_pelajaran");
@@ -43,15 +43,20 @@ public class MapelDao {
         getByNameStatement = connection.prepareStatement("SELECT * FROM mata_pelajaran WHERE nama_mapel = ?");
     }
 
-    public Mapel simpan(Mapel m) throws SQLException {
+public Mapel simpan(Mapel m) throws SQLException {
+    try {
+ 
         simpanStatement.setInt(1, m.getId());
         simpanStatement.setString(2, m.getNama_mapel());
         simpanStatement.setString(3, m.getTingkat());
-        simpanStatement.setInt(4, m.getBiaya());
+        simpanStatement.setInt(4, m.getBiaya());  // pastikan baris ini ada
+        
         simpanStatement.executeUpdate();
         return m;
+    } catch (SQLException e) {
+        throw new SQLException("Error menyimpan mapel: " + e.getMessage(), e);
     }
-
+}
     public Mapel ubah(Mapel m) throws SQLException {
         ubahStatement.setString(1, m.getNama_mapel());
         ubahStatement.setString(2, m.getTingkat());
@@ -73,7 +78,6 @@ public List<Mapel> getAll() throws SQLException {
         
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-            
             while (rs.next()) {
                 Mapel mapel = new Mapel();
                 mapel.setId(rs.getInt("id"));

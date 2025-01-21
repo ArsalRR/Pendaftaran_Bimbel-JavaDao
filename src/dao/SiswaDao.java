@@ -73,13 +73,17 @@ public boolean ubah(Siswa s) throws SQLException {
 }
 
 
-public boolean hapus(Siswa s) throws SQLException {
+public void hapus(Siswa s) throws SQLException {
     try {
-        hapusStatement.setInt(1, s.getId());
-        int result = hapusStatement.executeUpdate();
-        return result > 0;
+     
+
+      // Baru hapus data siswa
+        String sql = "DELETE FROM siswa WHERE id = ?";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setInt(1, s.getId());  
+        ps.executeUpdate();
     } catch (SQLException e) {
-        throw new SQLException("Error deleting student data: " + e.getMessage());
+        throw new SQLException("Error menghapus siswa: " + e.getMessage());
     }
 }
 

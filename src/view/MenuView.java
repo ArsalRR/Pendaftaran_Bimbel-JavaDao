@@ -55,7 +55,7 @@ public class MenuView extends javax.swing.JFrame {
 
         getContentPane().add(menuDesktop, java.awt.BorderLayout.CENTER);
 
-        jMenu1.setText("Master");
+        jMenu1.setText("Kelola Siswa");
 
         itemSiswa.setText("Siswa");
         itemSiswa.addActionListener(new java.awt.event.ActionListener() {

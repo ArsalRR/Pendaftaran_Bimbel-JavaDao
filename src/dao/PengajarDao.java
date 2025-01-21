@@ -96,7 +96,7 @@ public Pengajar ubah(Pengajar a) throws SQLException {
     getByIdStatement.setInt(1, id); // Ubah setString ke setInt
     ResultSet rs = getByIdStatement.executeQuery();
     
-    if (rs.next()) { // Ubah while ke if karena ID harusnya unique
+    if (rs.next()) { 
         a.setId(rs.getInt("id"));
             a.setNama_pengajar(rs.getString("nama_pengajar"));
             a.setEmail(rs.getString("email"));

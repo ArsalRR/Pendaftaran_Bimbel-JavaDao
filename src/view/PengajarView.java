@@ -111,7 +111,7 @@ public class PengajarView extends javax.swing.JInternalFrame {
         tabelPengajar = new javax.swing.JTable();
 
         setClosable(true);
-        setTitle("Form Input Siswa");
+        setTitle("Form Input Pengajar");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }

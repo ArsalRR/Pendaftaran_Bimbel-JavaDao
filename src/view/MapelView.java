@@ -116,7 +116,7 @@ public class MapelView extends javax.swing.JInternalFrame {
         tabelMapel = new javax.swing.JTable();
 
         setClosable(true);
-        setTitle("Form Input Siswa");
+        setTitle("Form Input Mata pelajaran");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -258,6 +258,8 @@ public class MapelView extends javax.swing.JInternalFrame {
                 .addContainerGap(129, Short.MAX_VALUE))
         );
 
+        getAccessibleContext().setAccessibleName("Form Input Mata Pelajaran");
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -332,7 +334,7 @@ public class MapelView extends javax.swing.JInternalFrame {
 
         private List<Mapel> listMapel = new ArrayList<>();
 
-        private final String HEADER[] = {"Nama Pengajar", "Email","No Telpon"};
+        private final String HEADER[] = {"Nama Mata pelajaran", "Tingkat","Biaya"};
 
         public SatuanTableModel(List<Mapel> listMapel) {
             this.listMapel = listMapel;
