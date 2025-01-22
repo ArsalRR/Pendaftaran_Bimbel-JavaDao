@@ -6,23 +6,21 @@
 package view;
 
 import controller.PendaftaranController;
-import controller.ProdukController;
+import java.awt.HeadlessException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import main.App;
 import model.Mapel;
 import model.Pendaftaran;
 import model.Pengajar;
-import model.Produk;
 import model.Siswa;
 
 
@@ -37,7 +35,7 @@ public class PendaftaranView extends javax.swing.JInternalFrame {
     private Pengajar pengajar;
     private Siswa siswa;
     private List<Pendaftaran> listPendaftaran;
-    private PendaftaranController pendaftaranController;
+    private final PendaftaranController pendaftaranController;
     
     /**
      * Creates new form ProdukView
@@ -101,10 +99,25 @@ public class PendaftaranView extends javax.swing.JInternalFrame {
 
 
     
-    private void refreshTable(){
-        listPendaftaran = App.masterService.getAllPendaftaran();
+private void refreshTable() {
+    try {
+        listPendaftaran = App.masterService.getAllPendaftaran(); // Memanggil service
+
+        if (listPendaftaran == null || listPendaftaran.isEmpty()) {
+            System.out.println("List pendaftaran kosong atau null!");
+        } else {
+            System.out.println("Data berhasil dimuat: " + listPendaftaran.size());
+        }
+
         tabelPendaftaran.setModel(new ProdukTableModel(listPendaftaran));
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null,
+            "Terjadi kesalahan saat memuat tabel: " + ex.getMessage(),
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
     }
+}
+
 
     private void initListener(){
         tabelPendaftaran.getSelectionModel().addListSelectionListener((ListSelectionEvent lse) -> {
@@ -298,7 +311,7 @@ public class PendaftaranView extends javax.swing.JInternalFrame {
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
         // TODO add your handling code here:
-        App.menuView.pendaftaranView = null;
+        App.menuView.pendaftaranview = null;
     }//GEN-LAST:event_formInternalFrameClosed
 
     private void tombolBaruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolBaruActionPerformed
@@ -306,17 +319,52 @@ public class PendaftaranView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tombolBaruActionPerformed
 
     private void tombolSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolSimpanActionPerformed
-        // TODO add your handling code here:
-        siswa = App.masterService.getByNameSiswa(comboMapel.getSelectedItem().toString());
-        produk.setId(textId.getText());
-        produk.setNama(textNama.getText());
-        produk.setSatuan(satuan);
-        produk.setHargaPokok(Double.parseDouble(textPokok.getText()));
-        produk.setHargaJual(Double.parseDouble(textJual.getText()));
-        produk.setStok(Integer.parseInt(textStok.getText()));
+    try {
+        // Validasi combobox tidak boleh kosong
+        if (comboSiswa.getSelectedItem() == null || 
+            comboMapel.getSelectedItem() == null || 
+            comboPengajar.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Semua field harus diisi!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Ambil data dari combobox
+        siswa = App.masterService.getByNameSiswa(comboSiswa.getSelectedItem().toString());
+        mapel = App.masterService.getByNameMapel(comboMapel.getSelectedItem().toString());
+        pengajar = App.masterService.getByNamePengajar(comboPengajar.getSelectedItem().toString());
+
+        // Validasi objek tidak null
+        if (siswa == null || mapel == null || pengajar == null) {
+            JOptionPane.showMessageDialog(this, "Data tidak ditemukan!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Set data ke objek pendaftaran
+        pendaftaran.setStatus_pembayaran(jRadioBelumLunas.isSelected() ? "Belum Lunas" : "Lunas");
+        pendaftaran.setSiswa(siswa);
+        pendaftaran.setMapel(mapel);
+        pendaftaran.setPengajar(pengajar);
+
+        // Simpan ke database
+        App.masterService.simpanPendaftaran(pendaftaran);
         
-        App.masterService.simpanProduk(produk);
+        // Refresh tabel dan reset form
         refreshTable();
+        resetForm();
+        
+        JOptionPane.showMessageDialog(this, "Data berhasil disimpan!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+
+    } catch (HeadlessException e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+// Method untuk reset form
+private void resetForm() {
+    comboSiswa.setSelectedIndex(0);
+    comboMapel.setSelectedIndex(0);
+    comboPengajar.setSelectedIndex(0);
+    jRadioBelumLunas.setSelected(true);
     }//GEN-LAST:event_tombolSimpanActionPerformed
 
     private void jRadioBelumLunasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioBelumLunasActionPerformed
@@ -346,51 +394,52 @@ public class PendaftaranView extends javax.swing.JInternalFrame {
     private javax.swing.JButton tombolSimpan;
     private javax.swing.JButton tombolUbah;
     // End of variables declaration//GEN-END:variables
-    
-    public class ProdukTableModel extends AbstractTableModel{
+public class ProdukTableModel extends AbstractTableModel {
 
-        private List<Produk> listProduk = new ArrayList<>();
-        private final String HEADER[] = {"ID", "NAMA", "SATUAN", "H. POKOK", "H. JUAL", "STOK"};
+    private List<Pendaftaran> listPendaftaran;
+    private final String HEADER[] = {"ID", "NAMA MAPEL", "NAMA SISWA", "NAMA PENGAJAR", "STATUS PEMBAYARAN"};
 
-        public ProdukTableModel(List<Produk> listProduk) {
-            this.listProduk = listProduk;
-        }
-        
-        @Override
-        public int getRowCount() {
-            return listProduk.size();
-        }
+    // Constructor untuk menerima data
+    public ProdukTableModel(List<Pendaftaran> listPendaftaran) {
+        // Pastikan list tidak null
+        this.listPendaftaran = listPendaftaran != null ? listPendaftaran : new ArrayList<>();
+    }
 
-        @Override
-        public int getColumnCount() {
-            return HEADER.length;
-        }
+    @Override
+    public int getRowCount() {
+        return listPendaftaran.size();
+    }
 
-        @Override
-        public String getColumnName(int i) {
-            return HEADER[i];
-        }
+    @Override
+    public int getColumnCount() {
+        return HEADER.length;
+    }
 
-        @Override
-        public Object getValueAt(int i, int i1) {
-            Produk p = listProduk.get(i);
-            switch(i1){
-                case 0:
-                    return p.getId();
-                case 1:
-                    return p.getNama();
-                case 2:
-                    return p.getSatuan().getNama();
-                case 3:
-                    return p.getHargaPokok();
-                case 4:
-                    return p.getHargaJual();
-                case 5:
-                    return p.getStok();
-                default:
-                    return null;
-            }
+    @Override
+    public String getColumnName(int i) {
+        return HEADER[i];
+    }
+
+    @Override
+    public Object getValueAt(int i, int i1) {
+        Pendaftaran p = listPendaftaran.get(i);
+        switch (i1) {
+            case 0:
+                return p.getId();
+            case 1:
+                return (p.getMapel() != null) ? p.getMapel().getNama_mapel() : "Tidak ada mapel";
+            case 2:
+                return (p.getSiswa() != null) ? p.getSiswa().getNama_siswa() : "Tidak ada siswa";
+            case 3:
+                return (p.getPengajar() != null) ? p.getPengajar().getNama_pengajar() : "Tidak ada pengajar";
+            case 4:
+                return p.getStatus_pembayaran();
+                
+            default:
+                return null;
         }
-        
     }
 }
+
+}
+

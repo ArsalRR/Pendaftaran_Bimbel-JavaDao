@@ -5,15 +5,18 @@
  */
 package controller;
 
+import java.awt.event.ItemEvent;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import main.App;
+import model.Mapel;
 import model.Pendaftaran;
-import model.Produk;
+import model.Pengajar;
+import model.Siswa;
 import view.PendaftaranView;
-import view.ProdukView;
 
 /**
  *
@@ -43,10 +46,43 @@ public class PendaftaranController {
         pendaftaranView.getTombolHapus().setEnabled(!kondisi);
     }
     
-    public void loadSatuan(){
-        ComboBoxModel cbm = new DefaultComboBoxModel((Vector) App.masterService.getAllMapel());
-        pendaftaranView.getComboSiswa().setModel(cbm);
+public void loadSatuan() {
+    try {
+        // Load Siswa ComboBox
+        List<Siswa> siswaList = App.masterService.getAllSiswa();
+        Vector<String> siswaVector = new Vector<>();
+        for (Siswa siswa : siswaList) {
+            siswaVector.add(siswa.getNama_siswa()); // Assuming getNama() returns the name
+        }
+        DefaultComboBoxModel<String> siswaModel = new DefaultComboBoxModel<>(siswaVector);
+        pendaftaranView.getComboSiswa().setModel(siswaModel);
+
+        // Load Pengajar ComboBox
+        List<Pengajar> pengajarList = App.masterService.getAllPengajar();
+        Vector<String> pengajarVector = new Vector<>();
+        for (Pengajar pengajar : pengajarList) {
+            pengajarVector.add(pengajar.getNama_pengajar()); // Assuming getNama() returns the name
+        }
+        DefaultComboBoxModel<String> pengajarModel = new DefaultComboBoxModel<>(pengajarVector);
+        pendaftaranView.getComboPengajar().setModel(pengajarModel);
+
+        // Load Mapel ComboBox
+        List<Mapel> mapelList = App.masterService.getAllMapel();
+        Vector<String> mapelVector = new Vector<>();
+        for (Mapel mapel : mapelList) {
+            mapelVector.add(mapel.getNama_mapel()); // Assuming getNama() returns the name
+        }
+        DefaultComboBoxModel<String> mapelModel = new DefaultComboBoxModel<>(mapelVector);
+        pendaftaranView.getComboMapel().setModel(mapelModel);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(pendaftaranView, 
+            "Error loading data: " + e.getMessage(),
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
     }
+}
+
     
     public void loadData(Pendaftaran pendaftaran, List<Pendaftaran> list){
         if(pendaftaranView.getTabelPendaftaran().getSelectedRow() >= 0){

@@ -37,15 +37,15 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Transaksi"/>
+            <Property name="text" type="java.lang.String" value="Pendaftaran"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="itemPendaftaran">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Penjualan"/>
+                <Property name="text" type="java.lang.String" value="Kelola"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemPendaftaranActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

@@ -22,6 +22,7 @@ public class MenuView extends javax.swing.JFrame {
     public SiswaView siswaView;
     public MapelView mapelView;
     public PengajarView pengajarView;
+    public PendaftaranView pendaftaranview;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,7 +39,7 @@ public class MenuView extends javax.swing.JFrame {
         itemPengajar = new javax.swing.JMenuItem();
         itemMapel = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        itemPendaftaran = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,15 +84,15 @@ public class MenuView extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Transaksi");
+        jMenu2.setText("Pendaftaran");
 
-        jMenuItem1.setText("Penjualan");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        itemPendaftaran.setText("Kelola");
+        itemPendaftaran.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                itemPendaftaranActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+        jMenu2.add(itemPendaftaran);
 
         jMenuBar1.add(jMenu2);
 
@@ -134,9 +135,16 @@ public class MenuView extends javax.swing.JFrame {
         mapelView.setVisible(true);
     }//GEN-LAST:event_itemMapelActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void itemPendaftaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPendaftaranActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+          if (pendaftaranview == null) {
+            pendaftaranview = new PendaftaranView();
+            menuDesktop.add(pendaftaranview);
+        } else {
+            pendaftaranview.toFront();
+        }
+        pendaftaranview.setVisible(true);
+    }//GEN-LAST:event_itemPendaftaranActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,12 +184,12 @@ public class MenuView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem itemMapel;
+    private javax.swing.JMenuItem itemPendaftaran;
     private javax.swing.JMenuItem itemPengajar;
     private javax.swing.JMenuItem itemSiswa;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JDesktopPane menuDesktop;
     // End of variables declaration//GEN-END:variables
 }

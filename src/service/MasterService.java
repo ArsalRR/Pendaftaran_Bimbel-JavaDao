@@ -41,7 +41,12 @@ public interface MasterService {
     Pendaftaran hapusPendaftaran(Pendaftaran p);
     List<Pendaftaran> getAllPendaftaran();
     Pendaftaran getByIdPendaftaran(String id);
-     Pendaftaran handleTransactionException(Pendaftaran p);
-      Pendaftaran resetAutoCommit(Pendaftaran p);
     List<Pendaftaran> findPendaftaranByName(String nama);
+
+    public Siswa getByNameSiswa(String toString);
+
+    public Mapel getByNameMapel(String toString);
+
+    public Pengajar getByNamePengajar(String toString);
+
 }
