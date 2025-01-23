@@ -25,6 +25,10 @@ import model.Mapel;
 import model.Pendaftaran;
 import model.Pengajar;
 import model.Siswa;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 
 
@@ -471,22 +475,15 @@ private void resetForm() {
     }//GEN-LAST:event_tombolHapusActionPerformed
 
     private void tombolCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolCetakActionPerformed
-  try {
-    // Inisialisasi koneksi
-    Koneksi koneksi = new Koneksi();
-
-    // Mengisi laporan menggunakan JasperFillManager
-    JasperPrint jp = JasperFillManager.fillReport(
-        getClass().getResourceAsStream("/Laporan/LaporanPendaftaran.jasper"), 
-        null, 
-        koneksi.getConnection()
-    );
-
-    // Menampilkan laporan dengan JasperViewer
-    JasperViewer.viewReport(jp, false);
-} catch (JRException ex) {
-    Logger.getLogger(PendaftaranView.class.getName()).log(Level.SEVERE, null, ex);
-}
+try{
+            Koneksi koneksi = new Koneksi();
+            JasperPrint jp = JasperFillManager.fillReport(getClass().getResourceAsStream("/Laporan/LaporanPendaftaran.jasper"), null, koneksi.getConnection());
+            JasperViewer.viewReport(jp, false);
+        }
+        catch (JRException ex ) {
+            Logger.getLogger(PendaftaranView.class.getName()).log(Level.SEVERE,null, ex);
+            
+        }
 
     }//GEN-LAST:event_tombolCetakActionPerformed
 
