@@ -5,10 +5,13 @@
  */
 package view;
 
+import config.Koneksi;
 import controller.PendaftaranController;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -22,6 +25,9 @@ import model.Mapel;
 import model.Pendaftaran;
 import model.Pengajar;
 import model.Siswa;
+
+
+
 
 
 /**
@@ -149,9 +155,10 @@ private void refreshTable() {
         tombolBaru = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelPendaftaran = new javax.swing.JTable();
+        tombolCetak = new javax.swing.JButton();
 
         setClosable(true);
-        setTitle("Form Input Produk");
+        setTitle("Form Input Pendaftaran Siswa");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -190,11 +197,21 @@ private void refreshTable() {
             }
         });
 
-        jLabel7.setText("Status");
+        jLabel7.setText("Status Pembayaran");
 
         tombolHapus.setText("Hapus");
+        tombolHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tombolHapusActionPerformed(evt);
+            }
+        });
 
         tombolUbah.setText("Ubah");
+        tombolUbah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tombolUbahActionPerformed(evt);
+            }
+        });
 
         tombolSimpan.setText("Simpan");
         tombolSimpan.addActionListener(new java.awt.event.ActionListener() {
@@ -223,6 +240,13 @@ private void refreshTable() {
         ));
         jScrollPane1.setViewportView(tabelPendaftaran);
 
+        tombolCetak.setText("Cetak");
+        tombolCetak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tombolCetakActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -234,28 +258,29 @@ private void refreshTable() {
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(jLabel7)
-                    .addComponent(tombolBaru))
-                .addGap(46, 46, 46)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(tombolBaru)
+                        .addGap(31, 31, 31)
+                        .addComponent(tombolSimpan)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboMapel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboSiswa, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboPengajar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jRadioLunas)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jRadioBelumLunas)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(tombolSimpan)
-                        .addGap(18, 18, 18)
+                    .addComponent(comboMapel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboSiswa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboPengajar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jRadioLunas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jRadioBelumLunas))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
                         .addComponent(tombolUbah)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(tombolHapus)
-                        .addGap(238, 238, 238))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tombolCetak)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(55, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -284,8 +309,9 @@ private void refreshTable() {
                     .addComponent(tombolBaru)
                     .addComponent(tombolSimpan)
                     .addComponent(tombolUbah)
-                    .addComponent(tombolHapus))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                    .addComponent(tombolHapus)
+                    .addComponent(tombolCetak))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -303,7 +329,7 @@ private void refreshTable() {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         pack();
@@ -320,7 +346,7 @@ private void refreshTable() {
 
     private void tombolSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolSimpanActionPerformed
     try {
-        // Validasi combobox tidak boleh kosong
+      
         if (comboSiswa.getSelectedItem() == null || 
             comboMapel.getSelectedItem() == null || 
             comboPengajar.getSelectedItem() == null) {
@@ -338,17 +364,11 @@ private void refreshTable() {
             JOptionPane.showMessageDialog(this, "Data tidak ditemukan!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        // Set data ke objek pendaftaran
         pendaftaran.setStatus_pembayaran(jRadioBelumLunas.isSelected() ? "Belum Lunas" : "Lunas");
         pendaftaran.setSiswa(siswa);
         pendaftaran.setMapel(mapel);
         pendaftaran.setPengajar(pengajar);
-
-        // Simpan ke database
         App.masterService.simpanPendaftaran(pendaftaran);
-        
-        // Refresh tabel dan reset form
         refreshTable();
         resetForm();
         
@@ -375,6 +395,101 @@ private void resetForm() {
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioLunasActionPerformed
 
+    private void tombolUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolUbahActionPerformed
+     try {
+    // Validasi jika field combo box kosong
+    if (comboSiswa.getSelectedItem() == null || 
+        comboMapel.getSelectedItem() == null || 
+        comboPengajar.getSelectedItem() == null) {
+        JOptionPane.showMessageDialog(this, "Semua field harus diisi!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Ambil data dari combobox
+    siswa = App.masterService.getByNameSiswa(comboSiswa.getSelectedItem().toString());
+    mapel = App.masterService.getByNameMapel(comboMapel.getSelectedItem().toString());
+    pengajar = App.masterService.getByNamePengajar(comboPengajar.getSelectedItem().toString());
+
+    // Validasi objek tidak null
+    if (siswa == null || mapel == null || pengajar == null) {
+        JOptionPane.showMessageDialog(this, "Data tidak ditemukan!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Update data pendaftaran
+    pendaftaran.setStatus_pembayaran(jRadioBelumLunas.isSelected() ? "Belum Lunas" : "Lunas");
+    pendaftaran.setSiswa(siswa);
+    pendaftaran.setMapel(mapel);
+    pendaftaran.setPengajar(pengajar);
+
+    // Update ke database
+    App.masterService.ubahPendaftaran(pendaftaran);
+
+    // Refresh tabel dan reset form
+    refreshTable();
+    resetForm();
+
+    JOptionPane.showMessageDialog(this, "Data berhasil diubah!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+
+} catch (HeadlessException e) {
+    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+}
+
+        
+    }//GEN-LAST:event_tombolUbahActionPerformed
+
+    private void tombolHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolHapusActionPerformed
+        try {
+    // Validasi jika tidak ada data yang dipilih
+    int selectedRow = tabelPendaftaran.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Pilih data yang akan dihapus!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // Konfirmasi sebelum menghapus
+    int confirm = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus data ini?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+    if (confirm != JOptionPane.YES_OPTION) {
+        return;
+    }
+
+    Pendaftaran pendaftaran = listPendaftaran.get(selectedRow);
+
+    // Hapus data dari database
+    App.masterService.hapusPendaftaran(pendaftaran);
+
+    // Refresh tabel setelah penghapusan
+    refreshTable();
+    resetForm();
+
+    JOptionPane.showMessageDialog(this, "Data berhasil dihapus!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+
+} catch (HeadlessException e) {
+    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+}
+
+    }//GEN-LAST:event_tombolHapusActionPerformed
+
+    private void tombolCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolCetakActionPerformed
+  try {
+    // Inisialisasi koneksi
+    Koneksi koneksi = new Koneksi();
+
+    // Mengisi laporan menggunakan JasperFillManager
+    JasperPrint jp = JasperFillManager.fillReport(
+        getClass().getResourceAsStream("/Laporan/LaporanPendaftaran.jasper"), 
+        null, 
+        koneksi.getConnection()
+    );
+
+    // Menampilkan laporan dengan JasperViewer
+    JasperViewer.viewReport(jp, false);
+} catch (JRException ex) {
+    Logger.getLogger(PendaftaranView.class.getName()).log(Level.SEVERE, null, ex);
+}
+
+    }//GEN-LAST:event_tombolCetakActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboMapel;
@@ -390,6 +505,7 @@ private void resetForm() {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabelPendaftaran;
     private javax.swing.JButton tombolBaru;
+    private javax.swing.JButton tombolCetak;
     private javax.swing.JButton tombolHapus;
     private javax.swing.JButton tombolSimpan;
     private javax.swing.JButton tombolUbah;
@@ -397,7 +513,7 @@ private void resetForm() {
 public class ProdukTableModel extends AbstractTableModel {
 
     private List<Pendaftaran> listPendaftaran;
-    private final String HEADER[] = {"ID", "NAMA MAPEL", "NAMA SISWA", "NAMA PENGAJAR", "STATUS PEMBAYARAN"};
+    private final String HEADER[] = {"ID", "NAMA MAPEL", "NAMA SISWA", "NAMA PENGAJAR","Biaya", "STATUS PEMBAYARAN"};
 
     // Constructor untuk menerima data
     public ProdukTableModel(List<Pendaftaran> listPendaftaran) {
@@ -433,6 +549,8 @@ public class ProdukTableModel extends AbstractTableModel {
             case 3:
                 return (p.getPengajar() != null) ? p.getPengajar().getNama_pengajar() : "Tidak ada pengajar";
             case 4:
+                return (p.getMapel() != null) ? p.getMapel().getBiaya() : "Belum Isi";
+                   case 5:
                 return p.getStatus_pembayaran();
                 
             default:

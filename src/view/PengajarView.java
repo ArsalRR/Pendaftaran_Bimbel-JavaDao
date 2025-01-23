@@ -6,6 +6,7 @@
 package view;
 
 import controller.PengajarController;
+import java.awt.HeadlessException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -281,28 +282,42 @@ public class PengajarView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tombolBaruActionPerformed
 
     private void tombolHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolHapusActionPerformed
-         if (pengajarController.validasiInput()) {
-        int konfirmasi = JOptionPane.showConfirmDialog(this, 
-            "Apakah anda yakin akan menghapus data ini?", 
-            "Konfirmasi", 
-            JOptionPane.WARNING_MESSAGE);
-        if(konfirmasi == 0) {
-            App.masterService.hapusPengajar(pengajar);
-            JOptionPane.showMessageDialog(this, "Data siswa berhasil dihapus!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
-            refreshTable();
-        }
+ try {
+    int selectedRow = tabelPengajar.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Pilih data pengajar yang akan dihapus!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+        return;
     }
+    int confirm = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus data pengajar ini?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+    if (confirm != JOptionPane.YES_OPTION) {
+        return;
+    }
+    Pengajar pengajar = listPengajar.get(selectedRow);
+    App.masterService.hapusPengajar(pengajar);
+    refreshTable();
+
+    JOptionPane.showMessageDialog(this, "Data pengajar berhasil dihapus!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+}
+
     }//GEN-LAST:event_tombolHapusActionPerformed
 
     private void tombolUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolUbahActionPerformed
-           if (pengajarController.validasiInput()) {
-         pengajar.setNama_pengajar(textNama_Pengajar.getText());
+   try {
+    if (pengajarController.validasiInput()) {
+        pengajar.setNama_pengajar(textNama_Pengajar.getText());
         pengajar.setEmail(textEmail.getText());
         pengajar.setNo_tlp(textNoTelpon.getText());
+
         App.masterService.ubahPengajar(pengajar);
-        JOptionPane.showMessageDialog(this, "Data siswa berhasil diubah!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Data pengajar berhasil diperbarui!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
         refreshTable();
     }
+} catch (HeadlessException e) {
+    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+}
+
     }//GEN-LAST:event_tombolUbahActionPerformed
 
 

@@ -68,7 +68,6 @@ public Siswa simpanSiswa(Siswa s) {
         // Attempt to save
         Siswa savedSiswa = siswaDao.simpan(s);
         
-        // If successful, commit the transaction
         connection.commit();
         
         return savedSiswa;
@@ -99,7 +98,7 @@ public Siswa simpanSiswa(Siswa s) {
         
     } finally {
         try {
-            // Reset auto-commit to true
+          
             connection.setAutoCommit(true);
         } catch (SQLException ex) {
             Logger.getLogger(MasterServiceImpl.class.getName())
@@ -118,7 +117,7 @@ public Siswa ubahSiswa(Siswa s) {
     } catch (SQLException ex) {
         try {
             connection.rollback();
-            connection.setAutoCommit(true);  // Tambahan ini untuk memastikan autoCommit kembali ke true
+            connection.setAutoCommit(true);
         } catch (SQLException ex1) {
             Logger.getLogger(MasterServiceImpl.class.getName())
                   .log(Level.SEVERE, "Gagal melakukan rollback", ex1);

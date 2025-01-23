@@ -313,30 +313,52 @@ public class SiswaView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tombolBaruActionPerformed
 
     private void tombolHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolHapusActionPerformed
-         if (siswaController.validasiInput()) {
-        int konfirmasi = JOptionPane.showConfirmDialog(this, 
-            "Apakah anda yakin akan menghapus data ini?", 
-            "Konfirmasi", 
-            JOptionPane.WARNING_MESSAGE);
-        if(konfirmasi == 0) {
-            App.masterService.hapusSiswa(siswa);
-            JOptionPane.showMessageDialog(this, "Data siswa berhasil dihapus!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
-            refreshTable();
-        }
+   // Aksi Hapus Data Siswa
+try {
+    // Validasi jika tidak ada data yang dipilih
+    int selectedRow = tabelSiswa.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Pilih data siswa yang akan dihapus!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+        return;
     }
+
+    // Konfirmasi sebelum menghapus
+    int confirm = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus data siswa ini?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+    if (confirm != JOptionPane.YES_OPTION) {
+        return;
+    }
+
+    // Ambil data siswa berdasarkan baris yang dipilih
+    Siswa siswa = listSiswa.get(selectedRow);
+
+    // Hapus data dari database
+    App.masterService.hapusSiswa(siswa);
+
+    // Perbarui tabel setelah penghapusan
+    refreshTable();
+    JOptionPane.showMessageDialog(this, "Data siswa berhasil dihapus!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+}
+
     }//GEN-LAST:event_tombolHapusActionPerformed
 
     private void tombolUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolUbahActionPerformed
-           if (siswaController.validasiInput()) {
-         siswa.setNama_siswa(textNama_Siswa.getText());
+
+try {
+    if (siswaController.validasiInput()) {
+        siswa.setNama_siswa(textNama_Siswa.getText());
         siswa.setAlamat(textAlamat.getText());
         siswa.setNo_tlp(textNoTelpon.getText());
-        siswa.setJenis_kelamin(jRadioPerempuan.isSelected() ? "Laki-laki" : "Perempuan");
-
+        siswa.setJenis_kelamin(jRadioPerempuan.isSelected() ? "Perempuan" : "Laki-laki");
         App.masterService.ubahSiswa(siswa);
-        JOptionPane.showMessageDialog(this, "Data siswa berhasil diubah!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
-        refreshTable();
+        JOptionPane.showMessageDialog(this, "Data siswa berhasil diperbarui!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+        refreshTable(); 
     }
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+}
+
     }//GEN-LAST:event_tombolUbahActionPerformed
 
     private void jRadioPerempuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioPerempuanActionPerformed

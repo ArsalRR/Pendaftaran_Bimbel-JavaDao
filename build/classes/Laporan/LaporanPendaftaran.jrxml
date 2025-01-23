@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3e5f1953-79c8-43a0-a6c2-466e50643cf4">
+	<property name="ireport.zoom" value="1.1"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     siswa.`id` AS siswa_id,
+     siswa.`nama_siswa` AS siswa_nama_siswa,
+     siswa.`alamat` AS siswa_alamat,
+     siswa.`no_telp` AS siswa_no_telp,
+     siswa.`jenis_kelamin` AS siswa_jenis_kelamin,
+     pengajar.`id` AS pengajar_id,
+     pengajar.`nama_pengajar` AS pengajar_nama_pengajar,
+     pengajar.`no_telp` AS pengajar_no_telp,
+     pengajar.`email` AS pengajar_email,
+     pendaftaran.`id` AS pendaftaran_id,
+     pendaftaran.`id_siswa` AS pendaftaran_id_siswa,
+     pendaftaran.`id_mapel` AS pendaftaran_id_mapel,
+     pendaftaran.`id_pengajar` AS pendaftaran_id_pengajar,
+     pendaftaran.`status_pembayaran` AS pendaftaran_status_pembayaran,
+     mata_pelajaran.`id` AS mata_pelajaran_id,
+     mata_pelajaran.`nama_mapel` AS mata_pelajaran_nama_mapel,
+     mata_pelajaran.`tingkat` AS mata_pelajaran_tingkat,
+     mata_pelajaran.`biaya` AS mata_pelajaran_biaya
+FROM
+     `siswa` siswa INNER JOIN `pendaftaran` pendaftaran ON siswa.`id` = pendaftaran.`id_siswa`
+     INNER JOIN `pengajar` pengajar ON pendaftaran.`id_pengajar` = pengajar.`id`
+     INNER JOIN `mata_pelajaran` mata_pelajaran ON pendaftaran.`id_mapel` = mata_pelajaran.`id`]]>
+	</queryString>
+	<field name="siswa_nama_siswa" class="java.lang.String"/>
+	<field name="siswa_alamat" class="java.lang.String"/>
+	<field name="siswa_no_telp" class="java.lang.String"/>
+	<field name="siswa_jenis_kelamin" class="java.lang.String"/>
+	<field name="pengajar_id" class="java.lang.Integer"/>
+	<field name="pengajar_nama_pengajar" class="java.lang.String"/>
+	<field name="pengajar_no_telp" class="java.lang.String"/>
+	<field name="pengajar_email" class="java.lang.String"/>
+	<field name="pendaftaran_id" class="java.lang.Integer"/>
+	<field name="pendaftaran_id_siswa" class="java.lang.Integer"/>
+	<field name="pendaftaran_id_mapel" class="java.lang.Integer"/>
+	<field name="pendaftaran_id_pengajar" class="java.lang.Integer"/>
+	<field name="pendaftaran_status_pembayaran" class="java.lang.String"/>
+	<field name="mata_pelajaran_id" class="java.lang.Integer"/>
+	<field name="mata_pelajaran_nama_mapel" class="java.lang.String"/>
+	<field name="mata_pelajaran_tingkat" class="java.lang.String"/>
+	<field name="mata_pelajaran_biaya" class="java.lang.Integer"/>
+	<field name="siswa_id" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="125" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="451" height="95" forecolor="#FFFFFF" backcolor="#000000" uuid="c46b20f9-f383-4ba9-bd35-f91cb717c93d"/>
+				<staticText>
+					<reportElement style="Title" x="0" y="0" width="370" height="66" uuid="f440a09c-3947-491b-8f2f-1040928d45fd"/>
+					<textElement>
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Laporan Pendaftran]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" x="157" y="66" width="249" height="29" uuid="172767ac-aa68-4f8b-b718-0d2631201535"/>
+					<textElement>
+						<font size="22" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Cherry SubTitle]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="7" width="30" height="18" forecolor="#000000" uuid="c11a19ff-9be6-4d2b-9389-cb2d5a20e8c3"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[nama siswaa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="30" y="7" width="30" height="18" forecolor="#000000" uuid="1fd5ba01-ca15-4c5e-9f5c-484a3001a645"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[alamat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="60" y="7" width="30" height="18" forecolor="#000000" uuid="9b3fe6df-22a1-48df-8812-e306e6d37d81"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[no]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="90" y="7" width="67" height="18" forecolor="#000000" uuid="b99ac530-8a5c-4cc7-98e4-f282386a1429"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Jenis Kelamin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="599" y="7" width="78" height="18" forecolor="#000000" uuid="27b49ad1-4915-4ca4-965b-01597e9e952f"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[mata_pelajaran_nama_mapel]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="749" y="5" width="37" height="20" uuid="10e2e925-6686-4daa-858d-0d3f711aad63"/>
+				<text><![CDATA[Biaya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="692" y="7" width="44" height="16" uuid="72e91867-2628-41e3-8804-0a8055bb1840"/>
+				<text><![CDATA[Tingkat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="540" y="9" width="44" height="16" uuid="5186c200-3e57-4a41-9e14-f1b72a5ea7eb"/>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="6" width="45" height="20" uuid="8c6721ac-0d24-4a63-a9c0-6d258dcb6fcc"/>
+				<text><![CDATA[Email]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="271" y="7" width="44" height="13" uuid="d1587092-50e2-425d-b90a-ee8bbd4e9836"/>
+				<text><![CDATA[NO Hp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="166" y="3" width="74" height="20" uuid="e8281dc3-3543-401c-adf5-0c0cf43c778f"/>
+				<text><![CDATA[Nama pengajar]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="786" height="18" uuid="78dad08e-3ac9-4769-b125-893091037fe5"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="0" y="0" width="30" height="18" uuid="aa8f7e7e-938e-4195-849c-59fd621a15ff"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{siswa_nama_siswa}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="30" y="0" width="30" height="18" uuid="a69e7004-4773-4ed1-8e8f-6cf5fa51f351"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{siswa_alamat}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="60" y="0" width="30" height="18" uuid="1f2e9c54-5ebb-45ed-b6fe-4adb0cba2832"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{siswa_no_telp}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="104" y="0" width="30" height="18" uuid="cbadbe9d-df09-47cf-9976-175328020a30"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{siswa_jenis_kelamin}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="166" y="0" width="69" height="18" uuid="1ee6df99-5740-45ef-9197-16b6f91188f9"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{pengajar_nama_pengajar}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="240" y="0" width="59" height="18" uuid="4577cc5f-24cc-4820-a4f6-6f51260a28ee"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{pengajar_no_telp}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="330" y="0" width="166" height="18" uuid="e1c112f3-c239-410e-b574-7f648c3a8233"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{pengajar_email}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="524" y="0" width="60" height="18" uuid="97eca818-3599-4fcb-b9d7-76aa6e9b0b2a"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{pendaftaran_status_pembayaran}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="611" y="0" width="51" height="18" uuid="a142d350-87cc-4678-bdc5-9c78345de2c8"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{mata_pelajaran_nama_mapel}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="704" y="0" width="32" height="18" uuid="860b28f2-d7da-442c-a5a8-997fc55e6807"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{mata_pelajaran_tingkat}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="749" y="0" width="37" height="18" uuid="f80fbcfa-079a-4102-90f6-32a3906e86b1"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{mata_pelajaran_biaya}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="c95f45f6-575a-411e-bd6b-474d9dc8e9de"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
