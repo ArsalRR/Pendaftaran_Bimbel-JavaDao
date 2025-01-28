@@ -28,7 +28,7 @@ public class SiswaDao {
     private PreparedStatement getByNameStatement;
 
  private final String queryInsert = "INSERT INTO siswa (id, nama_siswa, alamat, jenis_kelamin, no_telp) VALUES (?, ?, ?, ?, ?)";
-    private final String queryUpdate = "UPDATE siswa SET nama_siswa = ?, alamat = ?, jenis_kelamin = ?, no_telp = ? WHERE id = ?";
+    private final String queryUpdate = "UPDATE siswa SET nama_siswa = ?, alamat = ?, jenis_kelamin = ?, no_telp = ? WHERE id= ?";
     private final String queryDelete = "DELETE FROM siswa WHERE id = ?";
     private final String querySelectAll = "SELECT * FROM siswa";
     private final String querySelectById = "SELECT * FROM siswa WHERE id = ?";

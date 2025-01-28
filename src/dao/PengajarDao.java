@@ -29,7 +29,7 @@ public class PengajarDao {
     private PreparedStatement getByNameStatement;
 
  private final String queryInsert = "INSERT INTO pengajar (id, nama_pengajar, email, no_telp) VALUES (?, ?, ?, ?)";
-    private final String queryUpdate = "UPDATE pengajar SET nama_pengajar = ?, email = ?, no_telp = ? WHERE id =?";
+    private final String queryUpdate = "UPDATE pengajar SET nama_pengajar = ?,email = ?,no_telp = ? WHERE id =?";
     private final String queryDelete = "DELETE FROM pengajar WHERE id = ?";
     private final String querySelectAll = "SELECT * FROM pengajar";
     private final String querySelectById = "SELECT * FROM pengajar WHERE id = ?";
