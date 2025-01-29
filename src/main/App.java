@@ -11,8 +11,8 @@ import view.MenuView;
 
 /**392
  * 
- *
- * @author deirn
+ *-*
+ * @author deirn*
  */
 public class App {
 

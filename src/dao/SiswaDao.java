@@ -28,7 +28,7 @@ public class SiswaDao {
     private PreparedStatement getByNameStatement;
 
  private final String queryInsert = "INSERT INTO siswa (id, nama_siswa, alamat, jenis_kelamin, no_telp) VALUES (?, ?, ?, ?, ?)";
-    private final String queryUpdate = "UPDATE siswa SET nama_siswa = ?, alamat = ?, jenis_kelamin = ?, no_telp = ? WHERE id= ?";
+private final String queryUpdate = "UPDATE siswa SET nama_siswa = ?, alamat = ?, jenis_kelamin = ?, no_telp = ? WHERE id = ?";
     private final String queryDelete = "DELETE FROM siswa WHERE id = ?";
     private final String querySelectAll = "SELECT * FROM siswa";
     private final String querySelectById = "SELECT * FROM siswa WHERE id = ?";
@@ -47,25 +47,46 @@ public class SiswaDao {
         getByNameStatement = connection.prepareStatement(querySelectByName);
     }
 
- public Siswa simpan(Siswa s) throws SQLException {
-    simpanStatement.setInt(1, s.getId());
-    simpanStatement.setString(2, s.getNama_siswa());
-    simpanStatement.setString(3, s.getAlamat());
-    simpanStatement.setString(4, s.getJenis_kelamin());
-    simpanStatement.setString(5, s.getNo_tlp()); // Ubah dari 6 ke 5
-    simpanStatement.executeUpdate();
+public Siswa simpan(Siswa s) throws SQLException {
+    String query = "INSERT INTO siswa (nama_siswa, alamat, jenis_kelamin, no_telp) VALUES (?, ?, ?, ?)";
+
+    PreparedStatement stmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+    
+    stmt.setString(1, s.getNama_siswa());
+    stmt.setString(2, s.getAlamat());
+    stmt.setString(3, s.getJenis_kelamin());
+    stmt.setString(4, s.getNo_tlp());
+    
+    stmt.executeUpdate();
+    ResultSet rs = stmt.getGeneratedKeys();
+    if (rs.next()) {
+        s.setId(rs.getInt(1)); 
+    }
+
     return s;
 }
 
- public Siswa ubah(Siswa s) throws SQLException {
-        ubahStatement.setString(1, s.getNama_siswa());
-            ubahStatement.setString(2, s.getAlamat());
-                ubahStatement.setString(3, s.getJenis_kelamin());
-                    ubahStatement.setString(4, s.getNo_tlp());
-        ubahStatement.setInt(5, s.getId());
-        ubahStatement.executeUpdate();
-        return s;
+ 
+
+public Siswa ubah(Siswa s) throws SQLException {
+    // Validasi 
+    if (s.getId() == 0) {
+        throw new SQLException("ID tidak valid! Pastikan data sudah ada sebelum diubah.");
     }
+    ubahStatement.setString(1, s.getNama_siswa());
+    ubahStatement.setString(2, s.getAlamat());
+    ubahStatement.setString(3, s.getJenis_kelamin());
+    ubahStatement.setString(4, s.getNo_tlp());
+    ubahStatement.setInt(5, s.getId());
+
+    int rowsAffected = ubahStatement.executeUpdate();
+    if (rowsAffected == 0) {
+        throw new SQLException("Update gagal! ID tidak ditemukan.");
+    }
+
+    return s;
+}
+
 
     public Siswa hapus(Siswa s) throws SQLException {
         hapusStatement.setInt(1, s.getId());

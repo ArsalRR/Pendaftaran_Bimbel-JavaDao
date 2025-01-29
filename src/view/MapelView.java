@@ -7,6 +7,7 @@ package view;
 
 import controller.MapelController;
 import controller.PengajarController;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -269,15 +270,17 @@ public class MapelView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosed
 
     private void tombolSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolSimpanActionPerformed
-        // TODO add your handling code here:
-     if (mapelController.validasiInput()) {
-        mapel.setNama_mapel(textNama_Mapel.getText());
-        mapel.setTingkat(textTingkat.getText());
-        mapel.setBiaya(Integer.parseInt(textBiaya.getText()));
-        App.masterService.simpanMapel(mapel);
-        JOptionPane.showMessageDialog(this, "Data siswa berhasil disimpan!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
-        refreshTable();
-    }
+// TODO add your handling code here:
+if (mapelController.validasiInput()) {
+    mapel.setNama_mapel(textNama_Mapel.getText());
+    mapel.setTingkat(textTingkat.getText());
+    mapel.setBiaya(Integer.parseInt(textBiaya.getText()));
+
+    App.masterService.simpanMapel(mapel);
+    JOptionPane.showMessageDialog(this, "Data Mata Pelajaran berhasil disimpan!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+    refreshTable();
+}
+
     }//GEN-LAST:event_tombolSimpanActionPerformed
 
     private void tombolBaruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolBaruActionPerformed
@@ -295,7 +298,7 @@ public class MapelView extends javax.swing.JInternalFrame {
             JOptionPane.WARNING_MESSAGE);
         if(konfirmasi == 0) {
             App.masterService.hapusMapel(mapel);
-            JOptionPane.showMessageDialog(this, "Data siswa berhasil dihapus!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Data Mata Pelajaran berhasil dihapus!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
             refreshTable();
         }
     }
@@ -307,7 +310,7 @@ public class MapelView extends javax.swing.JInternalFrame {
         mapel.setTingkat(textTingkat.getText());
         mapel.setBiaya(Integer.parseInt(textBiaya.getText()));
         App.masterService.ubahMapel(mapel);
-        JOptionPane.showMessageDialog(this, "Data siswa berhasil diubah!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Data Mata Pelajaran berhasil diubah!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
         refreshTable();
     }
     }//GEN-LAST:event_tombolUbahActionPerformed

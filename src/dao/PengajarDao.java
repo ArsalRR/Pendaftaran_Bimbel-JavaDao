@@ -48,12 +48,25 @@ public class PengajarDao {
         getByNameStatement = connection.prepareStatement(querySelectByName);
     }
 
- public Pengajar simpan(Pengajar a) throws SQLException {
-    simpanStatement.setInt(1, a.getId());
-    simpanStatement.setString(2, a.getNama_pengajar());
-    simpanStatement.setString(3, a.getEmail());
-    simpanStatement.setString(4, a.getNo_tlp()); // Ubah dari 6 ke 5
-    simpanStatement.executeUpdate();
+public Pengajar simpan(Pengajar a) throws SQLException {
+    simpanStatement = connection.prepareStatement(
+        "INSERT INTO pengajar (nama_pengajar, email, no_telp) VALUES (?, ?, ?)", 
+        PreparedStatement.RETURN_GENERATED_KEYS
+    );
+
+    simpanStatement.setString(1, a.getNama_pengajar());
+    simpanStatement.setString(2, a.getEmail());
+    simpanStatement.setString(3, a.getNo_tlp());
+
+    int rowsAffected = simpanStatement.executeUpdate();
+    if (rowsAffected == 0) {
+        throw new SQLException("Gagal menyimpan data pengajar!");
+    }
+    ResultSet rs = simpanStatement.getGeneratedKeys();
+    if (rs.next()) {
+        a.setId(rs.getInt(1)); 
+    }
+
     return a;
 }
 
@@ -62,8 +75,13 @@ public Pengajar ubah(Pengajar a) throws SQLException {
     ubahStatement.setString(1, a.getNama_pengajar());
     ubahStatement.setString(2, a.getEmail());
     ubahStatement.setString(3, a.getNo_tlp()); 
-    ubahStatement.setInt(4, a.getId()); 
-    ubahStatement.executeUpdate();
+    ubahStatement.setInt(4, a.getId());  
+    int rowsAffected = ubahStatement.executeUpdate();
+
+    if (rowsAffected == 0) {
+        throw new SQLException("ID pengajar tidak ditemukan! Data harus sudah ada sebelum diubah.");
+    }
+    
     return a;
 }
 

@@ -297,7 +297,7 @@ public class SiswaView extends javax.swing.JInternalFrame {
         siswa.setNama_siswa(textNama_Siswa.getText());
         siswa.setAlamat(textAlamat.getText());
         siswa.setNo_tlp(textNoTelpon.getText());
-        siswa.setJenis_kelamin(jRadioPerempuan.isSelected() ? "Laki-laki" : "Perempuan");
+         siswa.setJenis_kelamin(jRadioPerempuan.isSelected() ? "Perempuan" : "Laki Laki");
 
         App.masterService.simpanSiswa(siswa);
         JOptionPane.showMessageDialog(this, "Data siswa berhasil disimpan!", "Informasi", JOptionPane.INFORMATION_MESSAGE);

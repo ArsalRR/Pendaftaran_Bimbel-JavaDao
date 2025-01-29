@@ -90,9 +90,7 @@ public class PendaftaranView extends javax.swing.JInternalFrame {
         return tabelPendaftaran;
     }
 
-    public JButton getTombolBaru() {
-        return tombolBaru;
-    }
+  
 
     public JButton getTombolHapus() {
         return tombolHapus;
@@ -102,9 +100,6 @@ public class PendaftaranView extends javax.swing.JInternalFrame {
         return tombolSimpan;
     }
 
-    public JButton getTombolUbah() {
-        return tombolUbah;
-    }
     
 
 
@@ -154,9 +149,7 @@ private void refreshTable() {
         jRadioLunas = new javax.swing.JRadioButton();
         jLabel7 = new javax.swing.JLabel();
         tombolHapus = new javax.swing.JButton();
-        tombolUbah = new javax.swing.JButton();
         tombolSimpan = new javax.swing.JButton();
-        tombolBaru = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelPendaftaran = new javax.swing.JTable();
         tombolCetak = new javax.swing.JButton();
@@ -181,11 +174,11 @@ private void refreshTable() {
             }
         });
 
-        jLabel2.setText("Nama");
+        jLabel2.setText("Nama Siswa");
 
-        jLabel3.setText("Mapel");
+        jLabel3.setText("Mata Pelajaran");
 
-        jLabel4.setText("Pengajar");
+        jLabel4.setText("Nama Pengajar");
 
         jRadioBelumLunas.setText("Belum Lunas");
         jRadioBelumLunas.addActionListener(new java.awt.event.ActionListener() {
@@ -210,24 +203,10 @@ private void refreshTable() {
             }
         });
 
-        tombolUbah.setText("Ubah");
-        tombolUbah.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tombolUbahActionPerformed(evt);
-            }
-        });
-
         tombolSimpan.setText("Simpan");
         tombolSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tombolSimpanActionPerformed(evt);
-            }
-        });
-
-        tombolBaru.setText("Baru");
-        tombolBaru.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tombolBaruActionPerformed(evt);
             }
         });
 
@@ -256,36 +235,37 @@ private void refreshTable() {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel7)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(tombolBaru)
-                        .addGap(31, 31, 31)
-                        .addComponent(tombolSimpan)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(comboMapel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboSiswa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboPengajar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jRadioLunas)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jRadioBelumLunas))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(tombolUbah)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tombolHapus)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tombolCetak)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(55, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel7)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(tombolSimpan)))
+                        .addGap(51, 51, 51)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(comboMapel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(comboSiswa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(comboPengajar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jRadioLunas)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jRadioBelumLunas)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(tombolHapus)
+                                .addGap(59, 59, 59)
+                                .addComponent(tombolCetak)))
+                        .addGap(0, 278, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(55, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -310,9 +290,7 @@ private void refreshTable() {
                     .addComponent(jLabel7))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tombolBaru)
                     .addComponent(tombolSimpan)
-                    .addComponent(tombolUbah)
                     .addComponent(tombolHapus)
                     .addComponent(tombolCetak))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
@@ -344,10 +322,6 @@ private void refreshTable() {
         App.menuView.pendaftaranview = null;
     }//GEN-LAST:event_formInternalFrameClosed
 
-    private void tombolBaruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolBaruActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tombolBaruActionPerformed
-
     private void tombolSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolSimpanActionPerformed
     try {
       
@@ -362,8 +336,6 @@ private void refreshTable() {
         siswa = App.masterService.getByNameSiswa(comboSiswa.getSelectedItem().toString());
         mapel = App.masterService.getByNameMapel(comboMapel.getSelectedItem().toString());
         pengajar = App.masterService.getByNamePengajar(comboPengajar.getSelectedItem().toString());
-
-        // Validasi objek tidak null
         if (siswa == null || mapel == null || pengajar == null) {
             JOptionPane.showMessageDialog(this, "Data tidak ditemukan!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -398,49 +370,6 @@ private void resetForm() {
     private void jRadioLunasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioLunasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioLunasActionPerformed
-
-    private void tombolUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolUbahActionPerformed
-     try {
-    // Validasi jika field combo box kosong
-    if (comboSiswa.getSelectedItem() == null || 
-        comboMapel.getSelectedItem() == null || 
-        comboPengajar.getSelectedItem() == null) {
-        JOptionPane.showMessageDialog(this, "Semua field harus diisi!", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    // Ambil data dari combobox
-    siswa = App.masterService.getByNameSiswa(comboSiswa.getSelectedItem().toString());
-    mapel = App.masterService.getByNameMapel(comboMapel.getSelectedItem().toString());
-    pengajar = App.masterService.getByNamePengajar(comboPengajar.getSelectedItem().toString());
-
-    // Validasi objek tidak null
-    if (siswa == null || mapel == null || pengajar == null) {
-        JOptionPane.showMessageDialog(this, "Data tidak ditemukan!", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    // Update data pendaftaran
-    pendaftaran.setStatus_pembayaran(jRadioBelumLunas.isSelected() ? "Belum Lunas" : "Lunas");
-    pendaftaran.setSiswa(siswa);
-    pendaftaran.setMapel(mapel);
-    pendaftaran.setPengajar(pengajar);
-
-    // Update ke database
-    App.masterService.ubahPendaftaran(pendaftaran);
-
-    // Refresh tabel dan reset form
-    refreshTable();
-    resetForm();
-
-    JOptionPane.showMessageDialog(this, "Data berhasil diubah!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
-
-} catch (HeadlessException e) {
-    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-}
-
-        
-    }//GEN-LAST:event_tombolUbahActionPerformed
 
     private void tombolHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombolHapusActionPerformed
         try {
@@ -501,11 +430,9 @@ try{
     private javax.swing.JRadioButton jRadioLunas;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabelPendaftaran;
-    private javax.swing.JButton tombolBaru;
     private javax.swing.JButton tombolCetak;
     private javax.swing.JButton tombolHapus;
     private javax.swing.JButton tombolSimpan;
-    private javax.swing.JButton tombolUbah;
     // End of variables declaration//GEN-END:variables
 public class ProdukTableModel extends AbstractTableModel {
 

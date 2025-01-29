@@ -42,17 +42,15 @@ public class PendaftaranController {
           pendaftaranView.getComboSiswa().setSelectedIndex(0);
         pendaftaranView.getComboMapel().setEnabled(kondisi);
         pendaftaranView.getTombolSimpan().setEnabled(kondisi);
-        pendaftaranView.getTombolUbah().setEnabled(!kondisi);
         pendaftaranView.getTombolHapus().setEnabled(!kondisi);
     }
     
 public void loadSatuan() {
     try {
-        // Load Siswa ComboBox
         List<Siswa> siswaList = App.masterService.getAllSiswa();
         Vector<String> siswaVector = new Vector<>();
         for (Siswa siswa : siswaList) {
-            siswaVector.add(siswa.getNama_siswa()); // Assuming getNama() returns the name
+            siswaVector.add(siswa.getNama_siswa());
         }
         DefaultComboBoxModel<String> siswaModel = new DefaultComboBoxModel<>(siswaVector);
         pendaftaranView.getComboSiswa().setModel(siswaModel);
@@ -61,7 +59,7 @@ public void loadSatuan() {
         List<Pengajar> pengajarList = App.masterService.getAllPengajar();
         Vector<String> pengajarVector = new Vector<>();
         for (Pengajar pengajar : pengajarList) {
-            pengajarVector.add(pengajar.getNama_pengajar()); // Assuming getNama() returns the name
+            pengajarVector.add(pengajar.getNama_pengajar()); 
         }
         DefaultComboBoxModel<String> pengajarModel = new DefaultComboBoxModel<>(pengajarVector);
         pendaftaranView.getComboPengajar().setModel(pengajarModel);
@@ -70,7 +68,7 @@ public void loadSatuan() {
         List<Mapel> mapelList = App.masterService.getAllMapel();
         Vector<String> mapelVector = new Vector<>();
         for (Mapel mapel : mapelList) {
-            mapelVector.add(mapel.getNama_mapel()); // Assuming getNama() returns the name
+            mapelVector.add(mapel.getNama_mapel());
         }
         DefaultComboBoxModel<String> mapelModel = new DefaultComboBoxModel<>(mapelVector);
         pendaftaranView.getComboMapel().setModel(mapelModel);
@@ -95,7 +93,6 @@ public void loadSatuan() {
     pendaftaranView.getjRadioLunas().setSelected(true);
 } else if(pendaftaran.getStatus_pembayaran().equals("Belum Lunas") ){
     pendaftaranView.getjRadioBelumLunas().setSelected(true);
-            pendaftaranView.getTombolUbah().setEnabled(false);
             pendaftaranView.getTombolHapus().setEnabled(false);
         }
     }

@@ -44,19 +44,31 @@ public class MapelDao {
     }
 
 public Mapel simpan(Mapel m) throws SQLException {
+    simpanStatement = connection.prepareStatement(
+        "INSERT INTO mata_pelajaran (nama_mapel, tingkat, biaya) VALUES (?, ?, ?)", 
+        PreparedStatement.RETURN_GENERATED_KEYS
+    );
+
     try {
- 
-        simpanStatement.setInt(1, m.getId());
-        simpanStatement.setString(2, m.getNama_mapel());
-        simpanStatement.setString(3, m.getTingkat());
-        simpanStatement.setInt(4, m.getBiaya());  // pastikan baris ini ada
-        
-        simpanStatement.executeUpdate();
+        simpanStatement.setString(1, m.getNama_mapel());
+        simpanStatement.setString(2, m.getTingkat());
+        simpanStatement.setInt(3, m.getBiaya());  
+
+        int rowsAffected = simpanStatement.executeUpdate();
+        if (rowsAffected == 0) {
+            throw new SQLException("Gagal menyimpan data mapel!");
+        }
+        ResultSet rs = simpanStatement.getGeneratedKeys();
+        if (rs.next()) {
+            m.setId(rs.getInt(1)); 
+        }
+
         return m;
     } catch (SQLException e) {
         throw new SQLException("Error menyimpan mapel: " + e.getMessage(), e);
     }
 }
+
     public Mapel ubah(Mapel m) throws SQLException {
         ubahStatement.setString(1, m.getNama_mapel());
         ubahStatement.setString(2, m.getTingkat());

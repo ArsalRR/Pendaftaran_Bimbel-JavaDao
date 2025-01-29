@@ -109,24 +109,43 @@ public Siswa simpanSiswa(Siswa s) {
 
 public Siswa ubahSiswa(Siswa s) {
     try {
+        if (s == null || s.getId() == 0) {
+            throw new SQLException("ID siswa tidak valid! Data harus sudah ada sebelum diubah.");
+        }
+
+        if (connection.isClosed()) {
+            throw new SQLException("Koneksi database sudah tertutup!");
+        }
+
         connection.setAutoCommit(false);
+        System.out.println("Mengupdate siswa dengan ID: " + s.getId());
+
         siswaDao.ubah(s);
         connection.commit();
         connection.setAutoCommit(true);
+        
+        System.out.println("Update berhasil!");
         return s;
+
     } catch (SQLException ex) {
+        ex.printStackTrace();  // Debugging
+        Logger.getLogger(MasterServiceImpl.class.getName())
+              .log(Level.SEVERE, "Gagal mengubah data siswa", ex);
         try {
             connection.rollback();
-            connection.setAutoCommit(true);
         } catch (SQLException ex1) {
             Logger.getLogger(MasterServiceImpl.class.getName())
                   .log(Level.SEVERE, "Gagal melakukan rollback", ex1);
         }
-        Logger.getLogger(MasterServiceImpl.class.getName())
-              .log(Level.SEVERE, "Gagal mengubah data siswa", ex);
-        return null;  // Mengembalikan null jika operasi gagal
+        try {
+            connection.setAutoCommit(true);
+        } catch (SQLException ex1) {
+            Logger.getLogger(MasterServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
+        }
+        return null;  // Mengembalikan null jika gagal
     }
 }
+
 
 
     @Override 

@@ -269,7 +269,7 @@ public class PengajarView extends javax.swing.JInternalFrame {
         pengajar.setEmail(textEmail.getText());
         pengajar.setNo_tlp(textNoTelpon.getText());
         App.masterService.simpanPengajar(pengajar);
-        JOptionPane.showMessageDialog(this, "Data siswa berhasil disimpan!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Data pengajar berhasil disimpan!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
         refreshTable();
     }
     }//GEN-LAST:event_tombolSimpanActionPerformed
